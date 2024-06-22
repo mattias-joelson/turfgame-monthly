@@ -231,10 +231,6 @@ public class HeatmapTest {
         return URLReaderTest.readProperties("warded.unique.php.html", TakenZones::fromHTML);
     }
 
-    public static Map<String, Integer> readLeifonsTakenZones() throws Exception {
-        return URLReaderTest.readProperties("Leifons-sthlm-unique.php.html", TakenZones::fromHTML);
-    }
-
     @Test
     public void danderydHeatmap() throws Exception {
         municipalityHeatmap("danderyd_heatmap.kml", readTakenZones(), MunicipalityTest.getDanderydZones().keySet(),
@@ -294,18 +290,6 @@ public class HeatmapTest {
                         entry -> takenZones.get(entry) == null || takenZones.get(entry) - monthlyTakenZones.get(entry) <= 50)
                 .collect(Collectors.toSet());
         municipalityHeatmap("monthlyCombinedHeatmap.kml", monthlyTakenZones, filteredZones, false);
-    }
-
-    @Test
-    public void leifonsSolnaHeatmap() throws Exception {
-        municipalityHeatmap("leifons_solna_heatmap.kml", readLeifonsTakenZones(),
-                MunicipalityTest.getLeifonsSolnaZones().keySet(), false);
-    }
-
-    @Test
-    public void leifonsSundbybergHeatmap() throws Exception {
-        municipalityHeatmap("leifons_sundbyberg_heatmap.kml", readLeifonsTakenZones(),
-                MunicipalityTest.getLeifonsSundbybergZones().keySet(), false);
     }
 
     @Test
