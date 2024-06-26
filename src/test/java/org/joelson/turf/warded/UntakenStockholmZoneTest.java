@@ -24,8 +24,8 @@ public class UntakenStockholmZoneTest {
         Set<String> yellowMunicipalities = Set.of("Danderyds kommun", "Huddinge kommun", "Järfälla kommun",
                 "Lidingö kommun", "Nacka kommun", "Sollentuna kommun", "Solna kommun", "Stockholms kommun",
                 "Sundbybergs kommun", "Täby kommun", "Upplands Väsby kommun");
-        List<Zone> untakenYellowZones = untakenStockholmZones.stream().filter(
-                        zone -> yellowMunicipalities.contains(zone.getRegion().getArea().getName()))
+        List<Zone> untakenYellowZones = untakenStockholmZones.stream()
+                .filter(zone -> yellowMunicipalities.contains(zone.getRegion().getArea().getName()))
                 .sorted(Comparator.comparing(Zone::getName)).toList();
 
         List<String> untakenMunicipalities = List.of("Ekerö kommun", "Tyresö kommun", "Vaxholms kommun");
@@ -66,5 +66,31 @@ public class UntakenStockholmZoneTest {
                 .forEach(zone -> out.writePlacemark(String.format("%s - %d", zone.getName(), zone.getId()), "",
                         zone.getLongitude(), zone.getLatitude()));
         out.close();
+
+        countMunicipalityZones(stockholmZones, takenZones);
+    }
+
+    private void countMunicipalityZones(List<Zone> stockholmZones, Map<String, Integer> takenZones) {
+        String[] stockholmMunicipalities =
+                new String[]{ "Solna kommun", "Sollentuna kommun", "Danderyds kommun", "Stockholms kommun",
+                        "Sundbybergs kommun", "Järfälla kommun", "Upplands Väsby kommun", "Täby kommun",
+                        "Vaxholms kommun", "Lidingö kommun", "Nacka kommun", "Tyresö kommun", "Huddinge kommun",
+                        "Ekerö kommun", "Sigtuna kommun", "Vallentuna kommun", "Österåkers kommun", "Värmdö kommun",
+                        "Haninge kommun", "Botkyrka kommun", "Upplands-Bro kommun", "Norrtälje kommun",
+                        "Södertälje kommun", "Salems kommun", "Nynäshamns kommun", "Nykvarns kommun", };
+        int sumZones = 0;
+        int sumVisited = 0;
+        System.out.println();
+        for (String municipality : stockholmMunicipalities) {
+            List<Zone> municipalityZones = stockholmZones.stream()
+                    .filter(zone -> zone.getRegion().getArea().getName().equals(municipality)).toList();
+            int noZones = municipalityZones.size();
+            int noVisited = (int) municipalityZones.stream().filter(zone -> takenZones.containsKey(zone.getName()))
+                    .count();
+            sumZones += noZones;
+            sumVisited += noVisited;
+            System.out.printf("%21s: %4d %4d (%4d %4d)%n", municipality, noZones, noVisited, sumZones, sumVisited);
+        }
+        System.out.println();
     }
 }
