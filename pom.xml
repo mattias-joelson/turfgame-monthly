@@ -23,7 +23,7 @@
   </parent>
 
   <properties>
-    <org.joelson.turf.resources.version>0.1-SNAPSHOT</org.joelson.turf.resources.version>
+    <org.joelson.turf.resources.version>1.0.0</org.joelson.turf.resources.version>
   </properties>
 
   <name>turf-monthly</name>
