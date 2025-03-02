@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class ZonesTest {
 
     public static List<Zone> getAllZones() throws IOException {
-        return URLReaderTest.readProperties("zones-all.json", Zones::fromJSON);
+        return URLReaderTest.readProperties("zones-all.v4.json", Zones::fromJSON);
     }
 
     @Test
