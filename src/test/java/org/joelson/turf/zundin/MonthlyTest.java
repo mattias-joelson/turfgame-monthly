@@ -4,11 +4,12 @@ import org.joelson.turf.util.URLReaderTest;
 
 public class MonthlyTest {
 
-    private static final String OBEROFF = "Oberoff";
-    private static final int ROUND = 113;
+    private static final String NICK = "0beroff";
+    private static final int ROUND = 176;
+    private static final String FILENAME = String.format("monthly_%s_round%d.html", NICK, ROUND);
 
     public static Monthly getMonthly() throws Exception {
-        return URLReaderTest.readProperties("monthly_0beroff_round175.html", s -> Monthly.fromHTML(OBEROFF, ROUND, s));
+        return URLReaderTest.readProperties(FILENAME, s -> Monthly.fromHTML(NICK, ROUND, s));
     }
 }
 

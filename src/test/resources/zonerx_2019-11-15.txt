@@ -45,13 +45,13 @@ Sollenstrand
 Edsview
 ShrubberyZone
 NI
-Strandzone
+StrandZone
 Dalboparken
 Agne
 SollenCorner
 TureTorg
 Satelliten
-Sollstation
+SollStation
 Cornucopia
 Fugelsang
 OldtimeZone
