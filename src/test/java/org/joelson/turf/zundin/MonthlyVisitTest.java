@@ -118,7 +118,7 @@ public class MonthlyVisitTest {
     }
 
     @Test
-    public void visitTäbyTest() throws Exception {
+    public void visitTabyTest() throws Exception {
         visitMunicipalityTest("Täby", "taby_month.kml", MunicipalityTest.getTabyZones().keySet());
     }
 
