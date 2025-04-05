@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -312,6 +313,8 @@ public class HeatmapTest {
             String filename, Map<String, Integer> takenZones, Set<String> zoneNames, boolean printZones)
             throws Exception {
         List<Zone> allZones = ZonesTest.getAllZones();
+        Map<String, Integer> monthlyVisits = MonthlyTest.getMonthly().getZones().stream().collect(
+                Collectors.toMap(MonthlyZone::getName, MonthlyZone::getVisits));
 
         List<Map<Zone, Integer>> zoneMaps = new ArrayList<>(TAKES_ENTRIES);
         Map<String, Integer> zoneMap = new HashMap<>();
@@ -328,6 +331,15 @@ public class HeatmapTest {
         int[] zoneTakes = new int[TAKES_ENTRIES];
         int municipalityTakes = 0;
 
+        int newZones = 0;
+        int yellowVisits = 0;
+        int orangeZones = 0;
+        int orangeVisits = 0;
+        int redZones = 0;
+        int redVisits = 0;
+        int purpleZones = 0;
+        int purpleVisits = 0;
+
         for (String zoneName : zoneNames) {
             int takes = 0;
             if (takenZones.containsKey(zoneName)) {
@@ -341,6 +353,34 @@ public class HeatmapTest {
                     zoneTakes[cappedTakes] += 1;
                     zoneMap.put(zone.getName(), takes);
                     break;
+                }
+            }
+            if (monthlyVisits.containsKey(zoneName)) {
+                int visits = monthlyVisits.get(zoneName);
+                int beginTakes = takes - visits;
+                if (beginTakes == 0) {
+                    newZones += 1;
+                }
+                if (beginTakes < 10) {
+                    yellowVisits += Math.min(takes, 10) - beginTakes;
+                }
+                if (takes >= 11 && beginTakes < 21) {
+                    if (beginTakes < 11) {
+                        orangeZones += 1;
+                    }
+                    orangeVisits += Math.min(takes, 20) - Math.max(beginTakes, 10);
+                }
+                if (takes >= 21 && beginTakes < 51) {
+                    if (beginTakes < 21) {
+                        redZones += 1;
+                    }
+                    redVisits += Math.min(takes, 50) - Math.max(beginTakes, 20);
+                }
+                if (takes >= 51) {
+                    if (beginTakes < 51) {
+                        purpleZones +=1;
+                    }
+                    purpleVisits += takes - Math.max(beginTakes, 50);
                 }
             }
         }
@@ -421,10 +461,10 @@ public class HeatmapTest {
         System.out.println("       0    5   10   15   20   25   30   35   40   45   50");
 
         System.out.println("File:            " + filename);
-        System.out.println("Takes to orange: " + toOrange + " (" + toOrangeZones + " zones)");
-        System.out.println("Takes to red:    " + toRed + " (" + toRedZones + " zones)");
-        System.out.println("Takes to violet: " + toViolet + " (" + toVioletZones + " zones)");
-        System.out.println("Total takes:     " + municipalityTakes);
+        System.out.println("Takes to orange: " + toOrange + " (" + toOrangeZones + " zones, " + yellowVisits + " yellow visits, " + newZones + " new zones)");
+        System.out.println("Takes to red:    " + toRed + " (" + toRedZones + " zones, " + orangeVisits + " orange visits, " + orangeZones + " new orange)");
+        System.out.println("Takes to violet: " + toViolet + " (" + toVioletZones + " zones. " + redVisits + " red visits, " + redZones + " new red zones)");
+        System.out.println("Total takes:     " + municipalityTakes + " (" + purpleZones + " new purple zones, " + purpleVisits + " purple visits)");
 
         if (!printZones) {
             return;
