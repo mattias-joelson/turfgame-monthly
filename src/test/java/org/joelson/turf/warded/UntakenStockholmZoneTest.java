@@ -45,21 +45,26 @@ public class UntakenStockholmZoneTest {
         // Värmdö kommun, Österåkers kommun]]"
 
         KMLWriter out = new KMLWriter("untaken_stockholm.kml");
-        out.writeFolder("Untaken Orange Municipalities");
-        untakenYellowZones.forEach(zone -> out.writePlacemark(
-                String.format("%s - %s", zone.getName(), zone.getRegion().getArea().getName()), "", zone.getLongitude(),
-                zone.getLatitude()));
-        untakenYellowZones.forEach(
-                zone -> System.out.printf("%s - %s%n", zone.getName(), zone.getRegion().getArea().getName()));
+        if (!untakenYellowZones.isEmpty()) {
+            out.writeFolder(String.format("Orange Municipalities (%d)", untakenYellowZones.size()));
+            untakenYellowZones.forEach(zone -> out.writePlacemark(
+                    String.format("%s - %s", zone.getName(), zone.getRegion().getArea().getName()),
+                    "", zone.getLongitude(), zone.getLatitude()));
+            untakenYellowZones.forEach(
+                    zone -> System.out.printf("%s - %s%n", zone.getName(), zone.getRegion().getArea().getName()));
+            System.out.printf("Orange Municipalities: %d untaken zones%n", untakenYellowZones.size());
+        }
         for (String untakenMunicipality : untakenMunicipalities) {
-            out.writeFolder("Untaken " + untakenMunicipality);
             List<Zone> untakenMunicipalityZones = untakenStockholmZones.stream()
                     .filter(zone -> zone.getRegion().getArea().getName().equals(untakenMunicipality))
                     .sorted(Comparator.comparing(Zone::getName)).toList();
-            untakenMunicipalityZones.forEach(zone -> out.writePlacemark(
-                    String.format("%s - %s", zone.getName(), zone.getRegion().getArea().getName()), "",
-                    zone.getLongitude(), zone.getLatitude()));
-            System.out.printf("%s: %d untaken zones%n", untakenMunicipality, untakenMunicipalityZones.size());
+            if (!untakenMunicipalityZones.isEmpty()) {
+                out.writeFolder(String.format("Untaken %s (%d)", untakenMunicipality, untakenMunicipalityZones.size()));
+                untakenMunicipalityZones.forEach(zone -> out.writePlacemark(
+                        String.format("%s - %s", zone.getName(), zone.getRegion().getArea().getName()), "",
+                        zone.getLongitude(), zone.getLatitude()));
+                System.out.printf("%s: %d untaken zones%n", untakenMunicipality, untakenMunicipalityZones.size());
+            }
         }
         out.writeFolder("7 summits");
         stockholmZones.stream().filter(zone -> sevenSummitsZones.contains(zone.getId()))
