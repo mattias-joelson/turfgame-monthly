@@ -195,34 +195,40 @@ public class MonthlyVisitTest {
 
         KMLWriter out = new KMLWriter("circle_combined_month.kml");
         if (!untakenZones.isEmpty()) {
-            out.writeFolder("Untaken Zones");
+            out.writeFolder(String.format("Untaken Zones (%d)", untakenZones.size()));
             untakenZones.stream().sorted().forEach(zone -> zone.write(out));
         }
         if (!yellowZones.isEmpty()) {
-            out.writeFolder("Yellow Zones");
+            out.writeFolder(
+                    String.format("Yellow Zones (%d, %d unvisited)", yellowZones.size(), countUnvisited(yellowZones)));
             yellowZones.stream().sorted().forEach(zone -> zone.write(out));
         }
         if (!orangeZones.isEmpty()) {
-            out.writeFolder("Orange Zones");
+            out.writeFolder(
+                    String.format("Orange Zones (%d, %d unvisited)", orangeZones.size(), countUnvisited(orangeZones)));
             orangeZones.stream().sorted().forEach(zone -> zone.write(out));
         }
         if (!redZones.isEmpty()) {
-            out.writeFolder("Red Zones");
+            out.writeFolder(String.format("Red Zones (%d, %d unvisited)", redZones.size(), countUnvisited(redZones)));
             redZones.stream().sorted().forEach(zone -> zone.write(out));
         }
         if (!unvisitedPurpleZones.isEmpty()) {
-            out.writeFolder("Unvisited Purple Zones");
+            out.writeFolder(String.format("Unvisited Purple Zones (%d)", unvisitedPurpleZones.size()));
             unvisitedPurpleZones.stream().sorted().forEach(zone -> zone.write(out));
         }
         if (!visitedOncePurpleZones.isEmpty()) {
-            out.writeFolder("Visited Once Purple Zones");
+            out.writeFolder(String.format("Visited Once Purple Zones (%d)", visitedOncePurpleZones.size()));
             visitedOncePurpleZones.stream().sorted().forEach(zone -> zone.write(out));
         }
         if (!visitedPurpleZones.isEmpty()) {
-            out.writeFolder("Visited Purple Zones");
+            out.writeFolder(String.format("Visited Purple Zones (%d)", visitedPurpleZones.size()));
             visitedPurpleZones.stream().sorted().forEach(zone -> zone.write(out));
         }
         out.close();
+    }
+
+    private int countUnvisited(List<CombinedVisitZone> combinedVisitZones) {
+        return (int) combinedVisitZones.stream().filter(combinedVisitZone -> combinedVisitZone.visits == 0).count();
     }
 
     private static class CombinedVisitZone implements Comparable<CombinedVisitZone> {
