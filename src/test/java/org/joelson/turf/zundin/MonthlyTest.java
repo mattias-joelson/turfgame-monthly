@@ -5,7 +5,7 @@ import org.joelson.turf.util.URLReaderTest;
 public class MonthlyTest {
 
     private static final String NICK = "0beroff";
-    private static final int ROUND = 177;
+    private static final int ROUND = 178;
     private static final String FILENAME = String.format("monthly_%s_round%d.html", NICK, ROUND);
 
     public static Monthly getMonthly() throws Exception {
