@@ -338,6 +338,7 @@ public class HeatmapTest {
         int redVisits = 0;
         int purpleZones = 0;
         int purpleVisits = 0;
+        int visitedZones = 0;
 
         for (String zoneName : zoneNames) {
             int takes = 0;
@@ -355,6 +356,7 @@ public class HeatmapTest {
                 }
             }
             if (monthlyVisits.containsKey(zoneName)) {
+                visitedZones += 1;
                 int visits = monthlyVisits.get(zoneName);
                 int beginTakes = takes - visits;
                 if (beginTakes == 0) {
@@ -459,7 +461,7 @@ public class HeatmapTest {
         System.out.println("     +-+----+----+----+----+----+----+----+----+----+----+-");
         System.out.println("       0    5   10   15   20   25   30   35   40   45   50");
 
-        System.out.println("File:            " + filename);
+        System.out.println("File:            " + filename + " (" + visitedZones + " / " + zoneNames.size() + ")");
         System.out.println("Takes to orange: " + toOrange + " (" + toOrangeZones + " zones, " + yellowVisits + " yellow visits, " + newZones + " new zones)");
         System.out.println("Takes to red:    " + toRed + " (" + toRedZones + " zones, " + orangeVisits + " orange visits, " + orangeZones + " new orange)");
         System.out.println("Takes to violet: " + toViolet + " (" + toVioletZones + " zones. " + redVisits + " red visits, " + redZones + " new red zones)");
