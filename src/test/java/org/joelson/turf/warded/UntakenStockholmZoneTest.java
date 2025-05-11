@@ -5,6 +5,7 @@ import org.joelson.turf.turfgame.apiv5.ZonesTest;
 import org.joelson.turf.util.KMLWriter;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +14,8 @@ import java.util.Set;
 public class UntakenStockholmZoneTest {
 
     @Test
-    public void generateStockholmTakeMap() throws Exception {
-        List<Zone> zones = ZonesTest.getAllZones();
-        List<Zone> stockholmZones = zones.stream()
-                .filter(zone -> zone.getRegion() != null && zone.getRegion().getId() == 141).toList();
+    public void generateStockholmTakeMap() throws IOException {
+        List<Zone> stockholmZones = ZonesTest.getStockholmRegionZones();
         Map<String, Integer> takenZones = TakenZoneTest.readTakenZones();
         List<Zone> untakenStockholmZones = stockholmZones.stream()
                 .filter(zone -> !takenZones.containsKey(zone.getName())).toList();

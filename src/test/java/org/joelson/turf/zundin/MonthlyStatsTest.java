@@ -3,6 +3,7 @@ package org.joelson.turf.zundin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -61,7 +62,7 @@ public class MonthlyStatsTest {
     }
 
     @BeforeEach
-    public void before() throws Exception {
+    public void before() throws IOException {
         monthly = MonthlyTest.getMonthly();
     }
 

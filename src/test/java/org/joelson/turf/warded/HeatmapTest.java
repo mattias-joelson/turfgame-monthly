@@ -1,9 +1,8 @@
 package org.joelson.turf.warded;
 
-import org.joelson.turf.lundkvist.MunicipalityTest;
-import org.joelson.turf.turfgame.apiv4.Zone;
-import org.joelson.turf.turfgame.apiv4.ZoneUtil;
-import org.joelson.turf.turfgame.apiv4.ZonesTest;
+import org.joelson.turf.turfgame.apiv5.Zone;
+import org.joelson.turf.turfgame.apiv5.ZonesTest;
+import org.joelson.turf.turfgame.util.ZoneUtil;
 import org.joelson.turf.util.KMLWriter;
 import org.joelson.turf.util.URLReaderTest;
 import org.joelson.turf.zundin.Monthly;
@@ -11,8 +10,9 @@ import org.joelson.turf.zundin.MonthlyTest;
 import org.joelson.turf.zundin.MonthlyZone;
 import org.junit.jupiter.api.Test;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,170 +20,80 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class HeatmapTest {
 
     private static final int TAKES_ENTRIES = HeatmapCategories.VIOLET.getTakes() + 1;
+    public static final double MIN_CIRCLE_RADIUS = 6600.0;
+    public static final int KRAUSTORG_ZONE_ID = 123789;
+    public static final int DESOMBLEVKVAR_ZONE_ID = 674048;
 
-    public static Set<String> getDSSZones() throws Exception {
-        Set<String> combinedZones = new HashSet<>();
-        combinedZones.addAll(MunicipalityTest.getSolnaZones().keySet());
-        combinedZones.addAll(MunicipalityTest.getDanderydZones().keySet());
-        combinedZones.addAll(MunicipalityTest.getSundbybergZones().keySet());
-        return combinedZones;
+    public static Set<Zone> filterDSSZones(Collection<Zone> zones) {
+        Set<Zone> dssZones = new HashSet<>();
+        zones.stream().filter(ZonesTest::isDSSZone).forEach(dssZones::add);
+        return dssZones;
     }
 
-    public static Set<String> getCircleZones() throws Exception {
-        Set<String> combinedZones = getDSSZones();
-
-        Map<String, Zone> zoneMap = ZoneUtil.toNameMap(ZonesTest.getAllZones());
-        Zone krausTorgZone = zoneMap.get("KrausTorg");
-//        double possibleDistance = ZoneUtil.calcDistance(59.441020, 18.004288, krausTorgZone);
-//        System.out.println("possibleDistance: " + possibleDistance);
-
-        double maxDistance = getMaxDistance(zoneMap, krausTorgZone);
-        System.out.println("Max distance: " + maxDistance);
-
-        Set<String> stockholmZones = MunicipalityTest.getStockholmZones().keySet().stream().filter(
-                zoneName -> inDistance(zoneMap, krausTorgZone, maxDistance, zoneName)).collect(Collectors.toSet());
-        List<Entry<String, Double>> stockholmDistances = getSortedZoneDistances(zoneMap, krausTorgZone, stockholmZones);
-        combinedZones.addAll(stockholmZones);
-        Set<String> sollentunaZones = MunicipalityTest.getSollentunaZones().keySet().stream().filter(
-                zoneName -> inDistance(zoneMap, krausTorgZone, maxDistance, zoneName)).collect(Collectors.toSet());
-        combinedZones.addAll(sollentunaZones);
-        Set<String> tabyZones = MunicipalityTest.getTabyZones().keySet().stream().filter(
-                zoneName -> inDistance(zoneMap, krausTorgZone, maxDistance, zoneName)).collect(Collectors.toSet());
-        combinedZones.addAll(tabyZones);
-        Map<Integer, Zone> zoneIdMap = ZoneUtil.toIdMap(ZonesTest.getAllZones());
-        Set<String> extraZones = new HashSet<>();
-        extraZones.add(zoneIdMap.get(120).getName());
-        extraZones.add(zoneIdMap.get(299).getName());
-        extraZones.add(zoneIdMap.get(64100).getName());
-        extraZones.add(zoneIdMap.get(94113).getName());
-        extraZones.add(zoneIdMap.get(131839).getName());
-        extraZones.add(zoneIdMap.get(223822).getName());
-        extraZones.add(zoneIdMap.get(680062).getName());
-        //        extraZones.add("MillHillField");
-        //        extraZones.add("RinkebyAllé");
-        //        extraZones.add("Gliaskogen");
-        List<Entry<String, Double>> extraDistances = getSortedZoneDistances(zoneMap, krausTorgZone, extraZones);
-        combinedZones.addAll(extraZones);
-        List<Entry<String, Double>> combinedDistances = getSortedZoneDistances(zoneMap, krausTorgZone, combinedZones);
-//        combinedDistances.stream().forEach(stringDoubleEntry -> {
-//            if (stringDoubleEntry.getValue() >= 6600d) {
-//                System.out.println(stringDoubleEntry.getKey() + "("+ zoneMap.get(stringDoubleEntry.getKey()).getId
-//                () +"): " + stringDoubleEntry.getValue());
-//            }
-//        });
-        //        Set<String> restOfStockholmZones = MunicipalityTest.getStockholmZones().keySet();
-        //        restOfStockholmZones.removeAll(combinedZones);
-        //        List<Entry<String, Double>> restOfStockholmDistances = getSortedZoneDistances(zoneMap,
-        //        krausTorgZone, restOfStockholmZones);
-        System.out.println("Zones: " + combinedZones.size());
-        return combinedZones;
+    public static Set<Zone> getKrausTorgCircleZones() throws IOException {
+        return getCircleZones(KRAUSTORG_ZONE_ID);
     }
 
-    public static Set<String> getAdjustedCircleZones() throws Exception {
-        Set<String> combinedZones = getDSSZones();
-
-        Map<String, Zone> zoneMap = ZoneUtil.toNameMap(ZonesTest.getAllZones());
-        Zone krausTorgZone = zoneMap.get("DeSomBlevKvar");
-//        double possibleDistance = ZoneUtil.calcDistance(59.441020, 18.004288, krausTorgZone);
-//        System.out.println("possibleDistance: " + possibleDistance);
-
-        double maxDistance = getMaxDistance(zoneMap, krausTorgZone);
-        System.out.println("Max distance: " + maxDistance);
-
-        Set<String> stockholmZones = MunicipalityTest.getStockholmZones().keySet().stream().filter(
-                zoneName -> inDistance(zoneMap, krausTorgZone, maxDistance, zoneName)).collect(Collectors.toSet());
-        List<Entry<String, Double>> stockholmDistances = getSortedZoneDistances(zoneMap, krausTorgZone, stockholmZones);
-        combinedZones.addAll(stockholmZones);
-        Set<String> sollentunaZones = MunicipalityTest.getSollentunaZones().keySet().stream().filter(
-                zoneName -> inDistance(zoneMap, krausTorgZone, maxDistance, zoneName)).collect(Collectors.toSet());
-        combinedZones.addAll(sollentunaZones);
-        Set<String> tabyZones = MunicipalityTest.getTabyZones().keySet().stream().filter(
-                zoneName -> inDistance(zoneMap, krausTorgZone, maxDistance, zoneName)).collect(Collectors.toSet());
-        combinedZones.addAll(tabyZones);
-        Map<Integer, Zone> zoneIdMap = ZoneUtil.toIdMap(ZonesTest.getAllZones());
-        Set<String> extraZones = new HashSet<>();
-        extraZones.add(zoneIdMap.get(120).getName());
-        extraZones.add(zoneIdMap.get(299).getName());
-        extraZones.add(zoneIdMap.get(64100).getName());
-        extraZones.add(zoneIdMap.get(94113).getName());
-        extraZones.add(zoneIdMap.get(131839).getName());
-        extraZones.add(zoneIdMap.get(223822).getName());
-        extraZones.add(zoneIdMap.get(680062).getName());
-        //        extraZones.add("MillHillField");
-        //        extraZones.add("RinkebyAllé");
-        //        extraZones.add("Gliaskogen");
-        List<Entry<String, Double>> extraDistances = getSortedZoneDistances(zoneMap, krausTorgZone, extraZones);
-        combinedZones.addAll(extraZones);
-        List<Entry<String, Double>> combinedDistances = getSortedZoneDistances(zoneMap, krausTorgZone, combinedZones);
-//        combinedDistances.stream().forEach(stringDoubleEntry -> {
-//            if (stringDoubleEntry.getValue() >= 6600d) {
-//                System.out.println(stringDoubleEntry.getKey() + "("+ zoneMap.get(stringDoubleEntry.getKey()).getId
-//                () +"): " + stringDoubleEntry.getValue());
-//            }
-//        });
-        //        Set<String> restOfStockholmZones = MunicipalityTest.getStockholmZones().keySet();
-        //        restOfStockholmZones.removeAll(combinedZones);
-        //        List<Entry<String, Double>> restOfStockholmDistances = getSortedZoneDistances(zoneMap,
-        //        krausTorgZone, restOfStockholmZones);
-        System.out.println("Zones: " + combinedZones.size());
-        return combinedZones;
+    public static Set<Zone> getDeSomBlevKvarCircleZones() throws IOException {
+        return getCircleZones(DESOMBLEVKVAR_ZONE_ID);
     }
 
-    private static double getMaxDistance(Map<String, Zone> zoneMap, Zone origoZone) throws Exception {
-        double solnaDistance = getMaxDistance(zoneMap, origoZone, MunicipalityTest.getSolnaZones().keySet());
-        List<Entry<String, Double>> solnaZones = getSortedZoneDistances(zoneMap, origoZone,
-                MunicipalityTest.getSolnaZones().keySet());
-//        System.out.println("solnaDistance: " + solnaDistance);
+    private static Set<Zone> getCircleZones(int zoneId) throws IOException {
+        List<Zone> stockholmRegionZones = ZonesTest.getStockholmRegionZones();
+        Set<Zone> circleZones = filterDSSZones(stockholmRegionZones);
 
-        double danderydDistance = getMaxDistance(zoneMap, origoZone, MunicipalityTest.getDanderydZones().keySet());
-        List<Entry<String, Double>> danderydZones = getSortedZoneDistances(zoneMap, origoZone,
-                MunicipalityTest.getDanderydZones().keySet());
-//        System.out.println("danderydDistance: " + danderydDistance);
-
-        double sundbybergDistance = getMaxDistance(zoneMap, origoZone, MunicipalityTest.getSundbybergZones().keySet());
-        List<Entry<String, Double>> sundbybergZones = getSortedZoneDistances(zoneMap, origoZone,
-                MunicipalityTest.getSundbybergZones().keySet());
-//        System.out.println("sundbybergDistance: " + sundbybergDistance);
-
-        return Math.max(Math.max(solnaDistance, danderydDistance), Math.max(sundbybergDistance, 6600.0));
-    }
-
-    private static double getMaxDistance(Map<String, Zone> zoneMap, Zone origoZone, Set<String> zoneNames) {
-        return zoneNames.stream().mapToDouble(name -> ZoneUtil.calcDistance(origoZone, zoneMap.get(name))).max().orElse(
-                0.0);
-    }
-
-    private static List<Entry<String, Double>> getSortedZoneDistances(
-            Map<String, Zone> zoneMap, Zone origoZone, Set<String> zoneNames) {
-        return zoneNames.stream().map(
-                name -> new SimpleImmutableEntry<>(name, ZoneUtil.calcDistance(origoZone, zoneMap.get(name)))).sorted(
-                Comparator.comparing(Entry::getValue)).collect(Collectors.toList());
-    }
-
-    private static boolean inDistance(Map<String, Zone> zoneMap, Zone origoZone, double maxDistance, String zoneName) {
-        if (zoneMap.get(zoneName) == null) {
-            throw new NullPointerException("Missing zone \"" + zoneName + "\"!");
+        Map<Integer, Zone> zoneIdMap = ZoneUtil.toIdMap(stockholmRegionZones);
+        Zone origoZone = zoneIdMap.get(zoneId);
+        if (origoZone == null) {
+            throw new IllegalArgumentException("Unknown zone with zoneId " + zoneId);
         }
-        return ZoneUtil.calcDistance(origoZone, zoneMap.get(zoneName)) <= maxDistance;
-    }
-
-    public static Set<String> getTrueCircleZones() throws Exception {
-        Map<String, Zone> zoneMap = ZoneUtil.toNameMap(ZonesTest.getAllZones());
-        Zone krausTorgZone = zoneMap.get("KrausTorg");
-        double maxDistance = getMaxDistance(zoneMap, krausTorgZone);
+        double maxDistance = getMaxDistance(circleZones, origoZone, MIN_CIRCLE_RADIUS);
         System.out.println("Max distance: " + maxDistance);
 
-        Set<String> circleZones = ZonesTest.getAllZones().stream().filter(
-                zone -> zone.getRegion() != null && zone.getRegion().getId() == 141).filter(
-                zone -> inDistance(zoneMap, krausTorgZone, maxDistance, zone.getName())).map(Zone::getName).collect(
-                Collectors.toSet());
+        stockholmRegionZones.stream()
+                .filter(ZonesTest::isSSTZone)
+                .filter(z -> inDistance(z, origoZone, maxDistance))
+                .forEach(circleZones::add);
+        circleZones.add(zoneIdMap.get(120));
+        circleZones.add(zoneIdMap.get(299));
+        circleZones.add(zoneIdMap.get(64100));
+        circleZones.add(zoneIdMap.get(94113));
+        circleZones.add(zoneIdMap.get(131839));
+        circleZones.add(zoneIdMap.get(223822));
+        circleZones.add(zoneIdMap.get(680062));
+        System.out.println("Zones: " + circleZones.size());
+        return circleZones;
+    }
+
+    private static double getMaxDistance(Set<Zone> zones, Zone origoZone, double minimumRadius) {
+        return Math.max(zones.stream().mapToDouble(z -> ZoneUtil.calcDistance(origoZone, z)).max().orElse(0),
+                minimumRadius);
+    }
+
+    private static boolean inDistance(Zone zone, Zone origoZone, double maxDistance) {
+        return ZoneUtil.calcDistance(zone, origoZone) <= maxDistance;
+    }
+
+    public static Set<Zone> getKrausTorgTrueCircleZones() throws IOException {
+        return getTrueCircleZones(KRAUSTORG_ZONE_ID);
+    }
+
+    private static Set<Zone> getTrueCircleZones(int zoneId) throws IOException {
+        List<Zone> stockholmRegionZones = ZonesTest.getStockholmRegionZones();
+        Set<Zone> circleZones = filterDSSZones(stockholmRegionZones);
+
+        Zone origoZone = circleZones.stream().filter(z -> z.getId() == zoneId).findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Unknown zone with zoneId " + zoneId));
+        double maxDistance = getMaxDistance(circleZones, origoZone, MIN_CIRCLE_RADIUS);
+        System.out.println("Max distance: " + maxDistance);
+
+        stockholmRegionZones.stream().filter(z -> inDistance(z, origoZone, maxDistance)).forEach(circleZones::add);
         System.out.println("Zones: " + circleZones.size());
         return circleZones;
     }
@@ -204,21 +114,6 @@ public class HeatmapTest {
         }
     }
 
-    //    private void writeHeatmapFolder(Map<Zone, Integer> zoneCounts, String fileName) {
-//        if (zoneCounts.isEmpty()) {
-//            return;
-//        }
-//        try (CSVWriter out = new CSVWriter(fileName + ".csv")) {
-//            zoneCounts.entrySet().stream()
-//                    .sorted(HeatmapTest::compareEntries)
-//                    .forEach(zoneCountEntry -> out.writePlacemark(String.format("%d - %s", zoneCountEntry.getValue
-//                    (), zoneCountEntry.getKey().getName()),
-//                            zoneCountEntry.getKey().getLongitude(), zoneCountEntry.getKey().getLatitude()));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
     private static int compareEntries(Entry<Zone, Integer> o1, Entry<Zone, Integer> o2) {
         int countDiff = o1.getValue() - o2.getValue();
         if (countDiff != 0) {
@@ -227,91 +122,95 @@ public class HeatmapTest {
         return o1.getKey().getName().compareTo(o2.getKey().getName());
     }
 
-    public static Map<String, Integer> readTakenZones() throws Exception {
+    public static Map<String, Integer> readTakenZones() throws IOException {
         return URLReaderTest.readProperties("warded.unique.php.html", TakenZones::fromHTML);
     }
 
     @Test
-    public void danderydHeatmap() throws Exception {
-        municipalityHeatmap("danderyd_heatmap.kml", readTakenZones(), MunicipalityTest.getDanderydZones().keySet(),
+    public void danderydHeatmap() throws IOException {
+        municipalityHeatmap("danderyd_heatmap.kml", readTakenZones(), ZonesTest.getDanderydAreaZones(),
                 true);
     }
 
     @Test
-    public void tabyHeatmap() throws Exception {
-        municipalityHeatmap("taby_heatmap.kml", readTakenZones(), MunicipalityTest.getTabyZones().keySet(), false);
+    public void tabyHeatmap() throws IOException {
+        municipalityHeatmap("taby_heatmap.kml", readTakenZones(), ZonesTest.getTabyAreaZones(), false);
     }
 
     @Test
-    public void solnaHeatmap() throws Exception {
-        municipalityHeatmap("solna_heatmap.kml", readTakenZones(), MunicipalityTest.getSolnaZones().keySet(), true);
+    public void solnaHeatmap() throws IOException {
+        municipalityHeatmap("solna_heatmap.kml", readTakenZones(), ZonesTest.getSolnaAreaZones(), true);
     }
 
     @Test
-    public void sundbybergHeatmap() throws Exception {
-        municipalityHeatmap("sundbyberg_heatmap.kml", readTakenZones(), MunicipalityTest.getSundbybergZones().keySet(),
+    public void sundbybergHeatmap() throws IOException {
+        municipalityHeatmap("sundbyberg_heatmap.kml", readTakenZones(), ZonesTest.getSundbybergAreaZones(),
                 true);
     }
 
     @Test
-    public void dssHeatmap() throws Exception {
-        municipalityHeatmap("dss_heatmap.kml", readTakenZones(), getDSSZones(), true);
+    public void dssHeatmap() throws IOException {
+        municipalityHeatmap("dss_heatmap.kml", readTakenZones(), ZonesTest.getDSSAreaZones(), true);
     }
 
     @Test
-    public void circleHeatmap() throws Exception {
-        municipalityHeatmap("circle_heatmap.kml", readTakenZones(), getCircleZones(), true);
+    public void circleHeatmap() throws IOException {
+        municipalityHeatmap("circle_heatmap.kml", readTakenZones(), getKrausTorgCircleZones(), true);
     }
 
     @Test
-    public void adjustedCircleHeatmap() throws Exception {
-        municipalityHeatmap("adjusted_circle_heatmap.kml", readTakenZones(), getAdjustedCircleZones(), true);
+    public void adjustedCircleHeatmap() throws IOException {
+        municipalityHeatmap("adjusted_circle_heatmap.kml", readTakenZones(), getDeSomBlevKvarCircleZones(), true);
     }
 
     @Test
-    public void trueCircleHeatmap() throws Exception {
-        municipalityHeatmap("true_circle_heatmap.kml", readTakenZones(), getTrueCircleZones(), true);
+    public void trueCircleHeatmap() throws IOException {
+        municipalityHeatmap("true_circle_heatmap.kml", readTakenZones(), getKrausTorgTrueCircleZones(), true);
     }
 
     @Test
-    public void combinedMonthlyHeatmap() throws Exception {
-        Set<String> combinedZones = getCircleZones();
+    public void combinedMonthlyHeatmap() throws IOException {
+        Set<Zone> combinedZones = getKrausTorgCircleZones();
+        Set<String> combinedZoneNames = combinedZones.stream().map(Zone::getName).collect(Collectors.toSet());
         Monthly monthly = MonthlyTest.getMonthly();
         Map<String, Integer> monthlyTakenZones = monthly.getZones().stream().filter(
-                monthlyZone -> combinedZones.contains(monthlyZone.getName())).collect(
+                monthlyZone -> combinedZoneNames.contains(monthlyZone.getName())).collect(
                 Collectors.toMap(MonthlyZone::getName, MonthlyZone::getVisits));
-        Map<String, Integer> notTakenZones = combinedZones.stream().filter(name -> !monthlyTakenZones.containsKey(name))
-                .collect(Collectors.toMap(Function.identity(), name -> 0));
+        Map<String, Integer> notTakenZones = combinedZones.stream().filter(
+                        z -> !monthlyTakenZones.containsKey(z.getName()))
+                .collect(Collectors.toMap(Zone::getName, z -> 0));
         monthlyTakenZones.putAll(notTakenZones);
         Map<String, Integer> takenZones = readTakenZones().entrySet().stream().filter(
-                entry -> combinedZones.contains(entry.getKey())).collect(
+                entry -> combinedZoneNames.contains(entry.getKey())).collect(
                 Collectors.toMap(Entry::getKey, Entry::getValue));
-        Set<String> filteredZones = combinedZones.stream().filter(
-                        entry -> takenZones.get(entry) == null || takenZones.get(entry) - monthlyTakenZones.get(entry) <= 50)
+        Set<Zone> filteredZones = combinedZones.stream()
+                .filter(z -> takenZones.get(z.getName()) == null
+                        || takenZones.get(z.getName()) - monthlyTakenZones.get(z.getName()) <= 50)
                 .collect(Collectors.toSet());
         municipalityHeatmap("monthlyCombinedHeatmap.kml", monthlyTakenZones, filteredZones, false);
     }
 
     @Test
-    public void monthlyHeatmap() throws Exception {
+    public void monthlyHeatmap() throws IOException {
         Monthly monthly = MonthlyTest.getMonthly();
         Map<String, Integer> takenZones = monthly.getZones().stream().collect(Collectors.toMap(MonthlyZone::getName,
                 monthlyZone -> monthlyZone.getTakes() + monthlyZone.getAssists()));
-        municipalityHeatmap("monthlyHeatmap.kml", takenZones, takenZones.keySet(), false);
+        Set<String> takenZoneNames = takenZones.keySet();
+        Map<String, Zone> zoneNameSet = ZoneUtil.toNameMap(ZonesTest.getAllZones());
+        Set<Zone> zones = takenZoneNames.stream().map(zoneNameSet::get).collect(Collectors.toSet());
+        municipalityHeatmap("monthlyHeatmap.kml", takenZones, zones, false);
     }
 
     @Test
-    public void monthlySolnaHeatmap() throws Exception {
+    public void monthlySolnaHeatmap() throws IOException {
         Monthly monthly = MonthlyTest.getMonthly();
         Map<String, Integer> takenZones = monthly.getZones().stream().collect(Collectors.toMap(MonthlyZone::getName,
                 monthlyZone -> monthlyZone.getTakes() + monthlyZone.getAssists()));
-        municipalityHeatmap("monthlySolnaHeatmap.kml", takenZones, MunicipalityTest.getSolnaZones().keySet(), false);
+        municipalityHeatmap("monthlySolnaHeatmap.kml", takenZones, ZonesTest.getSolnaAreaZones(), false);
     }
 
     private void municipalityHeatmap(
-            String filename, Map<String, Integer> takenZones, Set<String> zoneNames, boolean printZones)
-            throws Exception {
-        List<Zone> allZones = ZonesTest.getAllZones();
+            String filename, Map<String, Integer> takenZones, Set<Zone> zones, boolean printZones) throws IOException {
         Map<String, Integer> monthlyVisits = MonthlyTest.getMonthly().getZones().stream().collect(
                 Collectors.toMap(MonthlyZone::getName, MonthlyZone::getVisits));
 
@@ -340,21 +239,17 @@ public class HeatmapTest {
         int purpleVisits = 0;
         int visitedZones = 0;
 
-        for (String zoneName : zoneNames) {
+        for (Zone zone : zones) {
+            String zoneName = zone.getName();
             int takes = 0;
             if (takenZones.containsKey(zoneName)) {
                 takes = takenZones.get(zoneName);
                 municipalityTakes += takes;
             }
-            for (Zone zone : allZones) {
-                if (zone.getName().equals(zoneName)) {
-                    int cappedTakes = Math.min(takes, 51);
-                    zoneMaps.get(cappedTakes).put(zone, takes);
-                    zoneTakes[cappedTakes] += 1;
-                    zoneMap.put(zone.getName(), takes);
-                    break;
-                }
-            }
+            int cappedTakes = Math.min(takes, 51);
+            zoneMaps.get(cappedTakes).put(zone, takes);
+            zoneTakes[cappedTakes] += 1;
+            zoneMap.put(zone.getName(), takes);
             if (monthlyVisits.containsKey(zoneName)) {
                 visitedZones += 1;
                 int visits = monthlyVisits.get(zoneName);
@@ -392,18 +287,6 @@ public class HeatmapTest {
         int toRedZones = countZones(zoneTakes, WardedCategories.RED);
         int toViolet = countTakes(zoneTakes, WardedCategories.VIOLET);
         int toVioletZones = countZones(zoneTakes, WardedCategories.VIOLET);
-
-        Map<Zone, Integer> nextZones = new HashMap<>();
-        for (int i = 0; i < zoneTakes.length - 1; i += 1) {
-            if (zoneTakes[i] >= 10) {
-                int next = i;
-                int nextMax = Math.min(next + 4, 50);
-                for (int j = next; j <= nextMax; j += 1) {
-                    Map<Zone, Integer> map = zoneMaps.get(j);
-
-                }
-            }
-        }
 
         KMLWriter out = new KMLWriter(filename);
         writeHeatmapFolder(out, zoneMaps.get(HeatmapCategories.UNTAKEN.getTakes()), "untaken");
@@ -461,7 +344,7 @@ public class HeatmapTest {
         System.out.println("     +-+----+----+----+----+----+----+----+----+----+----+-");
         System.out.println("       0    5   10   15   20   25   30   35   40   45   50");
 
-        System.out.println("File:            " + filename + " (" + visitedZones + " / " + zoneNames.size() + ")");
+        System.out.println("File:            " + filename + " (" + visitedZones + " / " + zones.size() + ")");
         System.out.println("Takes to orange: " + toOrange + " (" + toOrangeZones + " zones, " + yellowVisits + " yellow visits, " + newZones + " new zones)");
         System.out.println("Takes to red:    " + toRed + " (" + toRedZones + " zones, " + orangeVisits + " orange visits, " + orangeZones + " new orange)");
         System.out.println("Takes to violet: " + toViolet + " (" + toVioletZones + " zones. " + redVisits + " red visits, " + redZones + " new red zones)");
@@ -471,21 +354,20 @@ public class HeatmapTest {
             return;
         }
         List<Entry<String, Integer>> sortedZones = zoneMap.entrySet().stream().sorted(
-                Entry.<String, Integer>comparingByValue().thenComparing(Entry.comparingByKey())).collect(
-                Collectors.toList());
+                Entry.<String, Integer>comparingByValue().thenComparing(Entry.comparingByKey())).toList();
         int takes = 0;
-        int zones = 0;
+        int printedZones = 0;
         for (Entry<String, Integer> entry : sortedZones) {
             if (entry.getValue() >= WardedCategories.VIOLET.getTakes()) {
                 return;
             }
             if (entry.getValue() == takes) {
                 System.out.println(entry.getValue() + " - " + entry.getKey());
-                zones += 1;
-            } else if (zones < 20 || entry.getValue() < WardedCategories.RED.getTakes()) {
+                printedZones += 1;
+            } else if (printedZones < 20 || entry.getValue() < WardedCategories.RED.getTakes()) {
                 System.out.println(entry.getValue() + " - " + entry.getKey());
                 takes = entry.getValue();
-                zones += 1;
+                printedZones += 1;
             } else {
                 return;
             }

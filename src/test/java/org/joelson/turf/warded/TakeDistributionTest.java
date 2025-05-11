@@ -1,13 +1,12 @@
 package org.joelson.turf.warded;
 
-import org.joelson.turf.turfgame.apiv4.Zone;
-import org.joelson.turf.turfgame.apiv4.ZoneUtil;
-import org.joelson.turf.turfgame.apiv4.ZonesTest;
+import org.joelson.turf.turfgame.apiv5.Zone;
 import org.joelson.turf.util.KMLWriter;
 import org.joelson.turf.zundin.MonthlyTest;
 import org.joelson.turf.zundin.MonthlyZone;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -21,15 +20,13 @@ public class TakeDistributionTest {
 
     private static final int PURPLE_LIMIT = 51;
 
-    private static void createDistributionMap(String filename, Set<String> zoneNames, boolean printZones)
-            throws Exception {
-        Map<String, Zone> zoneNameMap = ZoneUtil.toNameMap(ZonesTest.getAllZones());
+    private static void createDistributionMap(String filename, Set<Zone> zones, boolean printZones) throws IOException {
         Map<String, MonthlyZone> monthlyNameMap = toNameMap(MonthlyTest.getMonthly().getZones());
         Map<String, Integer> visitNameMap = TakenZoneTest.readTakenZones();
-        List<ZoneTakeDistribution> distributionList = new ArrayList<>(zoneNames.size());
+        List<ZoneTakeDistribution> distributionList = new ArrayList<>(zones.size());
 
-        for (String zoneName : zoneNames) {
-            Zone zone = zoneNameMap.get(zoneName);
+        for (Zone zone : zones) {
+            String zoneName = zone.getName();
             MonthlyZone monthlyZone = monthlyNameMap.get(zoneName);
             int visits = (visitNameMap.containsKey(zoneName)) ? visitNameMap.get(zoneName) : 0;
             if (visits >= PURPLE_LIMIT) {
@@ -144,8 +141,8 @@ public class TakeDistributionTest {
     }
 
     @Test
-    public void circleTakeDistributionTest() throws Exception {
-        createDistributionMap("circle_distribution.kml", HeatmapTest.getCircleZones(), true);
+    public void circleTakeDistributionTest() throws IOException {
+        createDistributionMap("circle_distribution.kml", HeatmapTest.getKrausTorgCircleZones(), true);
     }
 
     private static class ZoneTakeDistribution {
