@@ -54,7 +54,7 @@ public class ZonesTest {
         return getMunicipalityZones(TABY_KOMMUN_AREA_NAME);
     }
 
-    public static Set<Zone> getMunicipalityZones(String municipalityName) throws IOException {
+    private static Set<Zone> getMunicipalityZones(String municipalityName) throws IOException {
         return getStockholmRegionZones().stream()
                 .filter(z -> municipalityName.equals(z.getRegion().getArea().getName()))
                 .collect(Collectors.toSet());
