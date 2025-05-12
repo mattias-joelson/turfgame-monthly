@@ -25,7 +25,7 @@ import java.util.stream.IntStream;
 
 public class HeatmapTest {
 
-    private static final int TAKES_ENTRIES = HeatmapCategories.VIOLET.getTakes() + 1;
+    private static final int TAKES_ENTRIES = HeatmapCategories.PURPLE.getTakes() + 1;
     public static final double MIN_CIRCLE_RADIUS = 6600.0;
     public static final int KRAUSTORG_ZONE_ID = 123789;
     public static final int DESOMBLEVKVAR_ZONE_ID = 674048;
@@ -224,8 +224,8 @@ public class HeatmapTest {
         initZoneMaps(zoneMaps, HeatmapCategories.RED_27, HeatmapCategories.RED_33);
         initZoneMaps(zoneMaps, HeatmapCategories.RED_33, HeatmapCategories.RED_39);
         initZoneMaps(zoneMaps, HeatmapCategories.RED_39, HeatmapCategories.RED_45);
-        initZoneMaps(zoneMaps, HeatmapCategories.RED_45, HeatmapCategories.VIOLET);
-        initZoneMaps(zoneMaps, HeatmapCategories.VIOLET);
+        initZoneMaps(zoneMaps, HeatmapCategories.RED_45, HeatmapCategories.PURPLE);
+        initZoneMaps(zoneMaps, HeatmapCategories.PURPLE);
         int[] zoneTakes = new int[TAKES_ENTRIES];
         int municipalityTakes = 0;
 
@@ -285,8 +285,8 @@ public class HeatmapTest {
         int toOrangeZones = countZones(zoneTakes, WardedCategories.ORANGE);
         int toRed = countTakes(zoneTakes, WardedCategories.RED);
         int toRedZones = countZones(zoneTakes, WardedCategories.RED);
-        int toViolet = countTakes(zoneTakes, WardedCategories.VIOLET);
-        int toVioletZones = countZones(zoneTakes, WardedCategories.VIOLET);
+        int toPurple = countTakes(zoneTakes, WardedCategories.PURPLE);
+        int toPurpleZones = countZones(zoneTakes, WardedCategories.PURPLE);
 
         KMLWriter out = new KMLWriter(filename);
         writeHeatmapFolder(out, zoneMaps.get(HeatmapCategories.UNTAKEN.getTakes()), "untaken");
@@ -298,7 +298,7 @@ public class HeatmapTest {
         writeHeatmapFolder(out, zoneMaps.get(HeatmapCategories.RED_33.getTakes()), "red 33-38");
         writeHeatmapFolder(out, zoneMaps.get(HeatmapCategories.RED_39.getTakes()), "red 39-44");
         writeHeatmapFolder(out, zoneMaps.get(HeatmapCategories.RED_45.getTakes()), "red 45-50");
-        writeHeatmapFolder(out, zoneMaps.get(WardedCategories.VIOLET.getTakes()), "violet");
+        writeHeatmapFolder(out, zoneMaps.get(WardedCategories.PURPLE.getTakes()), "purple");
         out.close();
 
 //        String filenamePrefix = filename.substring(0, filename.indexOf(".kml"));
@@ -311,7 +311,7 @@ public class HeatmapTest {
 //        writeHeatmapFolder(zoneMaps.get(HeatmapCategories.RED_33.getTakes()), filenamePrefix + "_red_33-38");
 //        writeHeatmapFolder(zoneMaps.get(HeatmapCategories.RED_39.getTakes()), filenamePrefix + "_red_39-44");
 //        writeHeatmapFolder(zoneMaps.get(HeatmapCategories.RED_45.getTakes()), filenamePrefix + "_red_45-50");
-//        writeHeatmapFolder(zoneMaps.get(WardedCategories.VIOLET.getTakes()), filenamePrefix + "_violet");
+//        writeHeatmapFolder(zoneMaps.get(WardedCategories.PURPLE.getTakes()), filenamePrefix + "_purple");
 //
         int[][] zoneCountArray = IntStream.range(0, zoneTakes.length).mapToObj(i -> new int[]{ i, zoneTakes[i] })
                 .sorted(Comparator.comparingInt(a -> a[1])).toArray(int[][]::new);
@@ -347,7 +347,7 @@ public class HeatmapTest {
         System.out.println("File:            " + filename + " (" + visitedZones + " / " + zones.size() + ")");
         System.out.println("Takes to orange: " + toOrange + " (" + toOrangeZones + " zones, " + yellowVisits + " yellow visits, " + newZones + " new zones)");
         System.out.println("Takes to red:    " + toRed + " (" + toRedZones + " zones, " + orangeVisits + " orange visits, " + orangeZones + " new orange)");
-        System.out.println("Takes to violet: " + toViolet + " (" + toVioletZones + " zones. " + redVisits + " red visits, " + redZones + " new red zones)");
+        System.out.println("Takes to purple: " + toPurple + " (" + toPurpleZones + " zones. " + redVisits + " red visits, " + redZones + " new red zones)");
         System.out.println("Total takes:     " + municipalityTakes + " (" + purpleZones + " new purple zones, " + purpleVisits + " purple visits)");
 
         if (!printZones) {
@@ -358,7 +358,7 @@ public class HeatmapTest {
         int takes = 0;
         int printedZones = 0;
         for (Entry<String, Integer> entry : sortedZones) {
-            if (entry.getValue() >= WardedCategories.VIOLET.getTakes()) {
+            if (entry.getValue() >= WardedCategories.PURPLE.getTakes()) {
                 return;
             }
             if (entry.getValue() == takes) {
@@ -394,7 +394,7 @@ public class HeatmapTest {
     }
 
     private enum WardedCategories {
-        UNTAKEN(0), GREEN(1), YELLOW(2), ORANGE(11), RED(21), VIOLET(51);
+        UNTAKEN(0), GREEN(1), YELLOW(2), ORANGE(11), RED(21), PURPLE(51);
 
         private final int takes;
 
@@ -417,7 +417,7 @@ public class HeatmapTest {
         RED_33(WardedCategories.RED, 33),
         RED_39(WardedCategories.RED, 39),
         RED_45(WardedCategories.RED, 45),
-        VIOLET(WardedCategories.VIOLET);
+        PURPLE(WardedCategories.PURPLE);
 
         private final WardedCategories category;
         private final int takes;
