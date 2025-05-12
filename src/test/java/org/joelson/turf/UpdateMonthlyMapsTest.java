@@ -2,6 +2,7 @@ package org.joelson.turf;
 
 import org.joelson.turf.warded.HeatmapTest;
 import org.joelson.turf.warded.TakeDistributionTest;
+import org.joelson.turf.warded.TakenZoneTest;
 import org.joelson.turf.warded.UntakenStockholmZoneTest;
 import org.joelson.turf.zundin.MonthlyVisitTest;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ public class UpdateMonthlyMapsTest {
         new UntakenStockholmZoneTest().generateStockholmTakeMap();
         new MonthlyVisitTest().combinedCircleVisitHeatmapTest();
         new TakeDistributionTest().circleTakeDistributionTest();
+        new TakenZoneTest().takenStockholmPurpleTest();
         new HeatmapTest().circleHeatmap();
     }
 }
