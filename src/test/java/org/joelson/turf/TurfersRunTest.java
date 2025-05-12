@@ -1,9 +1,8 @@
 package org.joelson.turf;
 
-import org.joelson.turf.lundkvist.MunicipalityTest;
-import org.joelson.turf.turfgame.apiv4.Zone;
-import org.joelson.turf.turfgame.apiv4.ZoneUtil;
-import org.joelson.turf.turfgame.apiv4.ZonesTest;
+import org.joelson.turf.turfgame.apiv5.Zone;
+import org.joelson.turf.turfgame.apiv5.ZonesTest;
+import org.joelson.turf.turfgame.util.ZoneUtil;
 import org.joelson.turf.util.KMLWriter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,8 +21,11 @@ public class TurfersRunTest {
     private Map<String, Zone> zones;
 
     public static Stream<String> getDandebetZones() throws IOException {
-        Set<String> omitZones = Set.of("BlötaEneby", "Edsviken", "Tranpiren");
-        return MunicipalityTest.getDanderydZones().keySet().stream().filter(s -> !omitZones.contains(s)).sorted();
+        Set<String> omitZones = Set.of("BlötaEneby", "Edsviken");
+        return ZonesTest.getDanderydAreaZones().stream()
+                .map(Zone::getName)
+                .filter(name -> !omitZones.contains(name))
+                .sorted(String::compareToIgnoreCase);
     }
 
     private static Zone zoneIfExists(String zoneName, Zone zone) {
@@ -34,7 +36,7 @@ public class TurfersRunTest {
     }
 
     @BeforeEach
-    public void before() throws Exception {
+    public void before() throws IOException {
         zones = ZoneUtil.toNameMap(ZonesTest.getAllZones());
     }
 

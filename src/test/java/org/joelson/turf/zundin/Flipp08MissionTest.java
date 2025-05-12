@@ -1,9 +1,9 @@
 package org.joelson.turf.zundin;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.joelson.turf.turfgame.apiv4.Zone;
-import org.joelson.turf.turfgame.apiv4.ZoneUtil;
-import org.joelson.turf.turfgame.apiv4.ZonesTest;
+import org.joelson.turf.turfgame.apiv5.Zone;
+import org.joelson.turf.turfgame.apiv5.ZonesTest;
+import org.joelson.turf.turfgame.util.ZoneUtil;
 import org.joelson.turf.util.JacksonUtil;
 import org.joelson.turf.util.KMLWriter;
 import org.junit.jupiter.api.Test;
@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -29,8 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class Flipp08MissionTest {
 
-    public static Set<String> getFlippZones() throws Exception {
-        List<Zone> zones = ZonesTest.getAllZones();
+    public static Set<Zone> getFlippZones() throws IOException {
+        List<Zone> zones = ZonesTest.getStockholmRegionZones();
         Map<String, Zone> zoneMap = ZoneUtil.toNameMap(zones);
         Map<Integer, Zone> zoneIdMap = ZoneUtil.toIdMap(zones);
 
@@ -45,7 +46,7 @@ public class Flipp08MissionTest {
             }
         }
 
-        Set<String> flippZoneNames = new HashSet<>();
+        Set<Zone> flippZones = new HashSet<>();
         for (JsonNode flip : flips) {
             JsonNode array = flip.get("zones");
             for (int i = 0; i < array.size(); i += 1) {
@@ -60,16 +61,16 @@ public class Flipp08MissionTest {
                     zone = zoneMap.get(zoneName);
                     assertNotNull(zone, "Zone '" + zoneName + "' not found!");
                 }
-                flippZoneNames.add(zone.getName());
+                flippZones.add(zone);
             }
         }
 
-        return flippZoneNames;
+        return flippZones;
     }
 
     @Test
-    public void flipp08MonthProgressTest() throws Exception {
-        List<Zone> zones = ZonesTest.getAllZones();
+    public void flipp08MonthProgressTest() throws IOException {
+        List<Zone> zones = ZonesTest.getStockholmRegionZones();
         Map<String, Zone> zoneMap = ZoneUtil.toNameMap(zones);
         Map<Integer, Zone> zoneIdMap = ZoneUtil.toIdMap(zones);
 
@@ -123,8 +124,8 @@ public class Flipp08MissionTest {
     }
 
     @Test
-    public void flipp08Test() throws Exception {
-        List<Zone> zones = ZonesTest.getAllZones();
+    public void flipp08Test() throws IOException {
+        List<Zone> zones = ZonesTest.getStockholmRegionZones();
         Map<String, Zone> zoneMap = ZoneUtil.toNameMap(zones);
         Map<Integer, Zone> zoneIdMap = ZoneUtil.toIdMap(zones);
 
