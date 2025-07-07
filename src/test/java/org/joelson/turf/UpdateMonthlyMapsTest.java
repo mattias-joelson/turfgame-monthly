@@ -13,6 +13,7 @@ public class UpdateMonthlyMapsTest {
 
     @Test
     public void updateMonthlyMapsTest() throws IOException {
+        new TakenZoneTest().verifyTakenZonesTest();
         new UntakenStockholmZoneTest().generateStockholmTakeMap();
         new MonthlyVisitTest().combinedCircleVisitHeatmapTest();
         new TakeDistributionTest().circleTakeDistributionTest();

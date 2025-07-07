@@ -7,6 +7,7 @@ import org.joelson.turf.util.URLReaderTest;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -42,5 +43,23 @@ public class TakenZoneTest {
             System.out.printf("Distance to %dth zone: %5d m (%s)%n",
                     THOUSAND, Math.round(thousandDistance), zoneDistances.get(thousandDistance).getName());
         }
+    }
+
+    @Test
+    public void verifyTakenZonesTest() throws IOException {
+        List<Zone> zones = ZonesTest.getAllZones();
+        Map<String, Zone> zoneNameMap = zones.stream().collect(Collectors.toMap(Zone::getName, Function.identity()));
+        Map<String, Integer> takenZones = TakenZoneTest.readTakenZones();
+        Set<String> unknownZones = new HashSet<>();
+        for (String takenZoneName : takenZones.keySet()) {
+            if (!zoneNameMap.containsKey(takenZoneName)) {
+                unknownZones.add(takenZoneName);
+            }
+        }
+        if (!unknownZones.isEmpty()) {
+            System.err.printf("%d unknown zones: %s%n", unknownZones.size(), unknownZones);
+            throw new IllegalStateException("Unknown zones " + unknownZones);
+        }
+        System.out.println("Warded: All zones accounted for.");
     }
 }
