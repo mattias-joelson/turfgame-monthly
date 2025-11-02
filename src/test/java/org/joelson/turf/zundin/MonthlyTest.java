@@ -7,7 +7,7 @@ import java.io.IOException;
 public class MonthlyTest {
 
     private static final String NICK = "0beroff";
-    private static final int ROUND = 183;
+    private static final int ROUND = 184;
     private static final String FILENAME = String.format("monthly_%s_round%d.html", NICK, ROUND);
 
     public static Monthly getMonthly() throws IOException {
