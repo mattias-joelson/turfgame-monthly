@@ -1,0 +1,1510 @@
+
+
+<html>
+<link rel='stylesheet' type='text/css' href='frut.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta http-equiv='Content-Type' content='text/html;' charset='utf-8'/>
+<script language='javascript' type='text/javascript'>
+    function onOkClick(userid)
+    {
+        var userid = document.getElementById('userid').value;
+        var roundSelect = document.getElementById('roundid');
+        var roundid = roundSelect.options[roundSelect.selectedIndex].value;
+        var newLocation = 'monthly.php?userid=' + userid + '&roundid=' + roundid;
+        window.location.href = newLocation;
+    }
+</script>
+
+<head>
+    <title>Monthly Statistics</title>
+</head>
+
+<body>
+
+
+<script type='text/javascript' language='javascript'>
+    function myFunction() {
+      var x = document.getElementById('myTopnav');
+
+      if (x.className === 'topnav') {
+        x.className += ' responsive';
+      } else {
+        x.className = 'topnav';
+      }
+    }
+</script>
+
+<div class='topnav' id='myTopnav'>
+    <a href='index.php'> <!--class='active'>-->Frut</a>
+    <div class="dropdown">
+        <button class="dropbtn">Round Unique<i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href='unika.php'>Classic "Omgångsunika"</a>
+            <a href="unika_monthly.php">Monthly toplist</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <button class="dropbtn">Turf Missions<i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href="mission_events.php">Mission Log</a>
+            <a href="mission_list.php">Mission List</a>
+            <a href="mission.php">Current Mission</a>
+            <a href="mission_v2.php">Current Mission v2</a>
+            <a href="mission_help.php">How to Play?</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <button class="dropbtn">User Stats<i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href="user.php">User</a>
+            <a href="today.php">Today</a>
+            <a href="20day.php">2day</a>
+            <a href="user_round2.php">Round Summary</a>
+            <a href="monthly.php">Monthly</a>
+            <a href="user_unique_ll.php">Unique turfers</a>
+            <a href="user_assists.php">Unique assists</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <button class="dropbtn">Zone Stats<i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href='zone2.php'>Zone Stats</a>
+            <a href='new_zones.php'>New zones</a>
+            <a href='zone_regtop.php'>Toplist: Zones per region</a>
+            <a href='takestoday.php'>Toplist: Zones taken today</a>
+        </div>
+    </div>
+    <a href='about.php'>About</a>
+    <a href='swish.php'>Donate</a>
+    <a href='settings.php'>Settings</a>
+    <a href='settings.php'>[0beroff]</a>
+    <a href='javascript:void(0);' class='icon' onclick='myFunction()'>
+        <i class='fa fa-bars'></i>
+    </a>
+</div>
+<div class='main' style='padding-top:8px; padding-left:8px'>
+    <label for='userid'>Turf alias:</label>
+    <input type='text' name='userid' id='userid' onkeydown='if (event.keyCode == 13) return onOkClick(this.value);' value='0beroff'>
+    <label for='roundid'>Round:</label>
+    <select name='roundid' id='roundid' onchange='onOkClick(this.value)'>";
+        <option value='82' >April 2017</option><option value='83' >May 2017</option><option value='84' >June 2017</option><option value='85' >July 2017</option><option value='86' >August 2017</option><option value='87' >September 2017</option><option value='88' >October 2017</option><option value='89' >November 2017</option><option value='90' >December 2017</option><option value='91' >January 2018</option><option value='92' >February 2018</option><option value='93' >March 2018</option><option value='94' >April 2018</option><option value='95' >May 2018</option><option value='96' >June 2018</option><option value='97' >July 2018</option><option value='98' >August 2018</option><option value='99' >September 2018</option><option value='100' >October 2018</option><option value='101' >November 2018</option><option value='102' >December 2018</option><option value='103' >January 2019</option><option value='104' >February 2019</option><option value='105' >March 2019</option><option value='106' >April 2019</option><option value='107' >May 2019</option><option value='108' >June 2019</option><option value='109' >July 2019</option><option value='110' >August 2019</option><option value='111' >September 2019</option><option value='112' >October 2019</option><option value='113' >November 2019</option><option value='114' >December 2019</option><option value='115' >January 2020</option><option value='116' >February 2020</option><option value='117' >March 2020</option><option value='118' >April 2020</option><option value='119' >May 2020</option><option value='120' >June 2020</option><option value='121' >July 2020</option><option value='122' >August 2020</option><option value='123' >September 2020</option><option value='124' >October 2020</option><option value='125' >November 2020</option><option value='126' >December 2020</option><option value='127' >January 2021</option><option value='128' >February 2021</option><option value='129' >March 2021</option><option value='130' >April 2021</option><option value='131' >May 2021</option><option value='132' >June 2021</option><option value='133' >July 2021</option><option value='134' >August 2021</option><option value='135' >September 2021</option><option value='136' >October 2021</option><option value='137' >November 2021</option><option value='138' >December 2021</option><option value='139' >January 2022</option><option value='140' >February 2022</option><option value='141' >March 2022</option><option value='142' >April 2022</option><option value='143' >May 2022</option><option value='144' >June 2022</option><option value='145' >July 2022</option><option value='146' >August 2022</option><option value='147' >September 2022</option><option value='148' >October 2022</option><option value='149' >November 2022</option><option value='150' >December 2022</option><option value='151' >January 2023</option><option value='152' >Februsry 2023</option><option value='153' >March 2023</option><option value='154' >April 2023</option><option value='155' >May 2023</option><option value='156' >June 2023</option><option value='157' >July 2023</option><option value='158' >August 2023</option><option value='159' >September 2023</option><option value='160' >October 2023</option><option value='161' >November 2023</option><option value='162' >December 2023</option><option value='163' >January 2024</option><option value='164' >February 2024</option><option value='165' >March 2024</option><option value='166' >April 2024</option><option value='167' >May 2024</option><option value='168' >June 2024</option><option value='169' >July 2024</option><option value='170' >August 2024</option><option value='171' >September 2024</option><option value='172' >October 2024</option><option value='173' >November 2024</option><option value='174' >December 2024</option><option value='175' >January 2025</option><option value='176' >February 2025</option><option value='177' >March 2025</option><option value='178' >April 2025</option><option value='179' >May 2025</option><option value='180' >June 2025</option><option value='181' >July 2025</option><option value='182' >August 2025</option><option value='183' >September 2025</option><option value='184' >October 2025</option><option value='185' >November 2025</option><option value='186' selected='true'>December 2025</option>            </select>
+    <input type='button' value='OK' onclick='return onOkClick();' style='width:60px; height:20px;'>
+    <table class='frutTable'>
+        <thead>
+        <tr>
+            <th align='left'>Pos</th>
+            <th width ='130' align='left'>Name</th>
+            <th align='left'>Area</th>
+            <th align='left'>Region</th>
+            <th align='right'>TP</th>
+            <th width='50' align='right'>PPH</th>
+            <th width='50' align='right'>Points</th>
+            <th width='50' align='right'>Avg&nbsp;duration</th>
+            <th width='50' align='right'>Visits</th>
+            <th align='right'>Takes</th>
+            <th align='right'>Revisits</th>
+            <th align='right'>Assists</th>
+        </tr>
+        </thead>
+        <tr>
+            <td align='right'>1</td>
+            <td><a href='https://www.turfgame.com/zone/DeSomBlevKvar'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=674048&roundid=186'>DeSomBlevKvar</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>3145</td>
+            <td align='right'>10:16:27</td>
+            <td align='right'>19</td>
+            <td align='right'>18</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>2</td>
+            <td><a href='https://www.turfgame.com/zone/KrausTorg'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=123789&roundid=186'>KrausTorg</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>95</td>
+            <td align='right'> +7</td>
+            <td align='right'>2718</td>
+            <td align='right'>10:16:07</td>
+            <td align='right'>17</td>
+            <td align='right'>16</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>3</td>
+            <td><a href='https://www.turfgame.com/zone/PipersBjörn'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=179295&roundid=186'>PipersBjörn</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>1899</td>
+            <td align='right'>04:16:44</td>
+            <td align='right'>14</td>
+            <td align='right'>14</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>4</td>
+            <td><a href='https://www.turfgame.com/zone/Ritorpsvägen'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=178365&roundid=186'>Ritorpsvägen</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>1630</td>
+            <td align='right'>02:33:28</td>
+            <td align='right'>13</td>
+            <td align='right'>13</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>5</td>
+            <td><a href='https://www.turfgame.com/zone/Bergspipet'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=92309&roundid=186'>Bergspipet</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>1807</td>
+            <td align='right'>04:50:10</td>
+            <td align='right'>13</td>
+            <td align='right'>13</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>6</td>
+            <td><a href='https://www.turfgame.com/zone/Åbergssons'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=25176&roundid=186'>Åbergssons</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>1698</td>
+            <td align='right'>05:14:49</td>
+            <td align='right'>12</td>
+            <td align='right'>12</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>7</td>
+            <td><a href='https://www.turfgame.com/zone/BolivarsPark'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=92687&roundid=186'>BolivarsPark</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>1789</td>
+            <td align='right'>08:46:35</td>
+            <td align='right'>11</td>
+            <td align='right'>11</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>8</td>
+            <td><a href='https://www.turfgame.com/zone/StoneCrime'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=103641&roundid=186'>StoneCrime</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>1772</td>
+            <td align='right'>08:30:45</td>
+            <td align='right'>11</td>
+            <td align='right'>11</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>9</td>
+            <td><a href='https://www.turfgame.com/zone/Tågväktaren'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=92302&roundid=186'>Tågväktaren</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>125</td>
+            <td align='right'> +5</td>
+            <td align='right'>1615</td>
+            <td align='right'>10:53:37</td>
+            <td align='right'>9</td>
+            <td align='right'>9</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>10</td>
+            <td><a href='https://www.turfgame.com/zone/BrunnNorr'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=12242&roundid=186'>BrunnNorr</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>1355</td>
+            <td align='right'>09:53:49</td>
+            <td align='right'>8</td>
+            <td align='right'>8</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>11</td>
+            <td><a href='https://www.turfgame.com/zone/LångaGatan'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=97837&roundid=186'>LångaGatan</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>80</td>
+            <td align='right'> +8</td>
+            <td align='right'>1064</td>
+            <td align='right'>06:37:08</td>
+            <td align='right'>8</td>
+            <td align='right'>8</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>12</td>
+            <td><a href='https://www.turfgame.com/zone/Storgolf'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=92697&roundid=186'>Storgolf</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>95</td>
+            <td align='right'> +7</td>
+            <td align='right'>1003</td>
+            <td align='right'>06:53:31</td>
+            <td align='right'>7</td>
+            <td align='right'>7</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>13</td>
+            <td><a href='https://www.turfgame.com/zone/Örsprång'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=177801&roundid=186'>Örsprång</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>125</td>
+            <td align='right'> +5</td>
+            <td align='right'>587</td>
+            <td align='right'>04:20:37</td>
+            <td align='right'>4</td>
+            <td align='right'>4</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>14</td>
+            <td><a href='https://www.turfgame.com/zone/ÖrTennis'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=92693&roundid=186'>ÖrTennis</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>125</td>
+            <td align='right'> +5</td>
+            <td align='right'>583</td>
+            <td align='right'>04:08:50</td>
+            <td align='right'>4</td>
+            <td align='right'>4</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>15</td>
+            <td><a href='https://www.turfgame.com/zone/Golfängen'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=24056&roundid=186'>Golfängen</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>95</td>
+            <td align='right'> +7</td>
+            <td align='right'>554</td>
+            <td align='right'>06:11:58</td>
+            <td align='right'>4</td>
+            <td align='right'>4</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>16</td>
+            <td><a href='https://www.turfgame.com/zone/EnSånDärPlätt'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=778308&roundid=186'>EnSånDärPlätt</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>125</td>
+            <td align='right'> +5</td>
+            <td align='right'>587</td>
+            <td align='right'>04:22:28</td>
+            <td align='right'>4</td>
+            <td align='right'>4</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>17</td>
+            <td><a href='https://www.turfgame.com/zone/Golfklockan'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=97823&roundid=186'>Golfklockan</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>428</td>
+            <td align='right'>05:26:35</td>
+            <td align='right'>3</td>
+            <td align='right'>3</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>18</td>
+            <td><a href='https://www.turfgame.com/zone/Plattan'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=138&roundid=186'>Plattan</a></td>
+            <td>Stockholms kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>65</td>
+            <td align='right'> +9</td>
+            <td align='right'>143</td>
+            <td align='right'>00:44:32</td>
+            <td align='right'>2</td>
+            <td align='right'>2</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>19</td>
+            <td><a href='https://www.turfgame.com/zone/OdenZone'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=1571&roundid=186'>OdenZone</a></td>
+            <td>Stockholms kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>65</td>
+            <td align='right'> +9</td>
+            <td align='right'>142</td>
+            <td align='right'>00:39:31</td>
+            <td align='right'>2</td>
+            <td align='right'>2</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>20</td>
+            <td><a href='https://www.turfgame.com/zone/RåstasjönsIP'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=138973&roundid=186'>RåstasjönsIP</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>95</td>
+            <td align='right'> +7</td>
+            <td align='right'>213</td>
+            <td align='right'>16:47:53</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>21</td>
+            <td><a href='https://www.turfgame.com/zone/FriendsArena'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=11987&roundid=186'>FriendsArena</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>65</td>
+            <td align='right'> +9</td>
+            <td align='right'>72</td>
+            <td align='right'>00:49:32</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>22</td>
+            <td><a href='https://www.turfgame.com/zone/Kruthusbacken'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=11988&roundid=186'>Kruthusbacken</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>125</td>
+            <td align='right'> +5</td>
+            <td align='right'>272</td>
+            <td align='right'>1 days 05:23:52</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>23</td>
+            <td><a href='https://www.turfgame.com/zone/TyskaBrunn'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=64095&roundid=186'>TyskaBrunn</a></td>
+            <td>Stockholms kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>65</td>
+            <td align='right'> +9</td>
+            <td align='right'>211</td>
+            <td align='right'>16:10:55</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>24</td>
+            <td><a href='https://www.turfgame.com/zone/IngenKarusell'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=96612&roundid=186'>IngenKarusell</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>140</td>
+            <td align='right'> +4</td>
+            <td align='right'>428</td>
+            <td align='right'>2 days 23:59:08</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>25</td>
+            <td><a href='https://www.turfgame.com/zone/RawLakeWoods'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=11990&roundid=186'>RawLakeWoods</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>95</td>
+            <td align='right'> +7</td>
+            <td align='right'>213</td>
+            <td align='right'>16:54:53</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>26</td>
+            <td><a href='https://www.turfgame.com/zone/EarCity'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=7167&roundid=186'>EarCity</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>140</td>
+            <td align='right'> +4</td>
+            <td align='right'>175</td>
+            <td align='right'>08:42:55</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>27</td>
+            <td><a href='https://www.turfgame.com/zone/Arenabron'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=67614&roundid=186'>Arenabron</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>65</td>
+            <td align='right'> +9</td>
+            <td align='right'>78</td>
+            <td align='right'>01:23:37</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>28</td>
+            <td><a href='https://www.turfgame.com/zone/Lejonbacken'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=139066&roundid=186'>Lejonbacken</a></td>
+            <td>Stockholms kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>95</td>
+            <td align='right'> +7</td>
+            <td align='right'>102</td>
+            <td align='right'>01:02:53</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>29</td>
+            <td><a href='https://www.turfgame.com/zone/Bryggpiren'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=12249&roundid=186'>Bryggpiren</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>140</td>
+            <td align='right'> +4</td>
+            <td align='right'>217</td>
+            <td align='right'>19:11:35</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>30</td>
+            <td><a href='https://www.turfgame.com/zone/GaletStyre'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=204443&roundid=186'>GaletStyre</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>125</td>
+            <td align='right'> +5</td>
+            <td align='right'>155</td>
+            <td align='right'>05:58:19</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>31</td>
+            <td><a href='https://www.turfgame.com/zone/MotDepån'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=213165&roundid=186'>MotDepån</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>125</td>
+            <td align='right'> +5</td>
+            <td align='right'>185</td>
+            <td align='right'>12:01:11</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>32</td>
+            <td><a href='https://www.turfgame.com/zone/HagaBeach'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=12246&roundid=186'>HagaBeach</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>125</td>
+            <td align='right'> +5</td>
+            <td align='right'>129</td>
+            <td align='right'>00:48:11</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>33</td>
+            <td><a href='https://www.turfgame.com/zone/SportsCorner'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=12243&roundid=186'>SportsCorner</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>95</td>
+            <td align='right'> +7</td>
+            <td align='right'>116</td>
+            <td align='right'>02:57:49</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>34</td>
+            <td><a href='https://www.turfgame.com/zone/FörrTillDandy'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=498722&roundid=186'>FörrTillDandy</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>155</td>
+            <td align='right'> +3</td>
+            <td align='right'>212</td>
+            <td align='right'>18:54:48</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>35</td>
+            <td><a href='https://www.turfgame.com/zone/TuleTorg'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=34111&roundid=186'>TuleTorg</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>122</td>
+            <td align='right'>02:04:29</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>36</td>
+            <td><a href='https://www.turfgame.com/zone/RaspSquare'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=1480&roundid=186'>RaspSquare</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>134</td>
+            <td align='right'>03:59:56</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>37</td>
+            <td><a href='https://www.turfgame.com/zone/Luftkolonin'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=97826&roundid=186'>Luftkolonin</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>95</td>
+            <td align='right'> +7</td>
+            <td align='right'>108</td>
+            <td align='right'>01:52:11</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>38</td>
+            <td><a href='https://www.turfgame.com/zone/HayZone'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=237&roundid=186'>HayZone</a></td>
+            <td>Stockholms kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>65</td>
+            <td align='right'> +9</td>
+            <td align='right'>65</td>
+            <td align='right'></td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+            <td align='right'>1</td>
+        </tr>
+        <tr>
+            <td align='right'>39</td>
+            <td><a href='https://www.turfgame.com/zone/HedvigZone'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=325&roundid=186'>HedvigZone</a></td>
+            <td>Stockholms kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>80</td>
+            <td align='right'> +8</td>
+            <td align='right'>189</td>
+            <td align='right'>13:39:50</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>40</td>
+            <td><a href='https://www.turfgame.com/zone/Svedenskogen'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=775402&roundid=186'>Svedenskogen</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>140</td>
+            <td align='right'> +4</td>
+            <td align='right'>214</td>
+            <td align='right'>18:30:35</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>41</td>
+            <td><a href='https://www.turfgame.com/zone/Näckrosen'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=519800&roundid=186'>Näckrosen</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>95</td>
+            <td align='right'> +7</td>
+            <td align='right'>114</td>
+            <td align='right'>02:43:41</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>42</td>
+            <td><a href='https://www.turfgame.com/zone/Gnagetland'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=44314&roundid=186'>Gnagetland</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>95</td>
+            <td align='right'> +7</td>
+            <td align='right'>159</td>
+            <td align='right'>09:11:14</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>43</td>
+            <td><a href='https://www.turfgame.com/zone/ClaraKyrka'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=63987&roundid=186'>ClaraKyrka</a></td>
+            <td>Stockholms kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>65</td>
+            <td align='right'> +9</td>
+            <td align='right'>78</td>
+            <td align='right'>01:29:52</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>44</td>
+            <td><a href='https://www.turfgame.com/zone/PowerWellBay'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=8343&roundid=186'>PowerWellBay</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>140</td>
+            <td align='right'> +4</td>
+            <td align='right'>237</td>
+            <td align='right'>1 days 00:22:10</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>45</td>
+            <td><a href='https://www.turfgame.com/zone/Berghamradjur'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=152344&roundid=186'>Berghamradjur</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>125</td>
+            <td align='right'>02:33:44</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>46</td>
+            <td><a href='https://www.turfgame.com/zone/ReadySteadyGo'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=37707&roundid=186'>ReadySteadyGo</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>80</td>
+            <td align='right'> +8</td>
+            <td align='right'>214</td>
+            <td align='right'>16:45:32</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>47</td>
+            <td><a href='https://www.turfgame.com/zone/HagaBasket'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=724307&roundid=186'>HagaBasket</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>130</td>
+            <td align='right'>03:18:18</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>48</td>
+            <td><a href='https://www.turfgame.com/zone/KornZone'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=167&roundid=186'>KornZone</a></td>
+            <td>Stockholms kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>65</td>
+            <td align='right'> +9</td>
+            <td align='right'>65</td>
+            <td align='right'></td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+            <td align='right'>1</td>
+        </tr>
+        <tr>
+            <td align='right'>49</td>
+            <td><a href='https://www.turfgame.com/zone/Sommarcykling'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=278609&roundid=186'>Sommarcykling</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>170</td>
+            <td align='right'> +2</td>
+            <td align='right'>219</td>
+            <td align='right'>1 days 00:27:28</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>50</td>
+            <td><a href='https://www.turfgame.com/zone/RåstaNorr'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=78449&roundid=186'>RåstaNorr</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>80</td>
+            <td align='right'> +8</td>
+            <td align='right'>215</td>
+            <td align='right'>16:52:23</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>51</td>
+            <td><a href='https://www.turfgame.com/zone/MalinsPark'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=216473&roundid=186'>MalinsPark</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>140</td>
+            <td align='right'> +4</td>
+            <td align='right'>175</td>
+            <td align='right'>08:45:23</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>52</td>
+            <td><a href='https://www.turfgame.com/zone/Dalskogen'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=22192&roundid=186'>Dalskogen</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>125</td>
+            <td align='right'> +5</td>
+            <td align='right'>127</td>
+            <td align='right'>00:25:04</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>53</td>
+            <td><a href='https://www.turfgame.com/zone/SkyldraGevär'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=169&roundid=186'>SkyldraGevär</a></td>
+            <td>Stockholms kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>80</td>
+            <td align='right'> +8</td>
+            <td align='right'>109</td>
+            <td align='right'>03:40:26</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>54</td>
+            <td><a href='https://www.turfgame.com/zone/HagaTower'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=12069&roundid=186'>HagaTower</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>125</td>
+            <td align='right'> +5</td>
+            <td align='right'>189</td>
+            <td align='right'>12:48:12</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>55</td>
+            <td><a href='https://www.turfgame.com/zone/GamlaEuropa'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=208746&roundid=186'>GamlaEuropa</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>125</td>
+            <td align='right'> +5</td>
+            <td align='right'>185</td>
+            <td align='right'>11:57:24</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>56</td>
+            <td><a href='https://www.turfgame.com/zone/iCanSeaWell'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=12245&roundid=186'>iCanSeaWell</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>115</td>
+            <td align='right'>00:45:42</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>57</td>
+            <td><a href='https://www.turfgame.com/zone/MotVänOMoSMot'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=139401&roundid=186'>MotVänOMoSMot</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>95</td>
+            <td align='right'> +7</td>
+            <td align='right'>116</td>
+            <td align='right'>02:59:50</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>58</td>
+            <td><a href='https://www.turfgame.com/zone/BrunkeGryning'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=34724&roundid=186'>BrunkeGryning</a></td>
+            <td>Stockholms kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>65</td>
+            <td align='right'> +9</td>
+            <td align='right'>213</td>
+            <td align='right'>16:26:52</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>59</td>
+            <td><a href='https://www.turfgame.com/zone/TittutTåget'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=92299&roundid=186'>TittutTåget</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>224</td>
+            <td align='right'>18:57:33</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>60</td>
+            <td><a href='https://www.turfgame.com/zone/SumpyMilkyway'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=686016&roundid=186'>SumpyMilkyway</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>125</td>
+            <td align='right'> +5</td>
+            <td align='right'>139</td>
+            <td align='right'>02:47:40</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>61</td>
+            <td><a href='https://www.turfgame.com/zone/CirkuleraBär'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=114908&roundid=186'>CirkuleraBär</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>178</td>
+            <td align='right'>11:18:30</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>62</td>
+            <td><a href='https://www.turfgame.com/zone/Signalisten'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=22195&roundid=186'>Signalisten</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>122</td>
+            <td align='right'>01:55:52</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>63</td>
+            <td><a href='https://www.turfgame.com/zone/EnStorMarknad'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=601704&roundid=186'>EnStorMarknad</a></td>
+            <td>Sollentuna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>270</td>
+            <td align='right'>1 days 02:44:47</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>64</td>
+            <td><a href='https://www.turfgame.com/zone/Östermalmtorg'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=242&roundid=186'>Östermalmtorg</a></td>
+            <td>Stockholms kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>65</td>
+            <td align='right'> +9</td>
+            <td align='right'>97</td>
+            <td align='right'>03:30:53</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>65</td>
+            <td><a href='https://www.turfgame.com/zone/Svedenbadet'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=24058&roundid=186'>Svedenbadet</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>155</td>
+            <td align='right'> +3</td>
+            <td align='right'>211</td>
+            <td align='right'>18:38:05</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>66</td>
+            <td><a href='https://www.turfgame.com/zone/MountainDale'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=33127&roundid=186'>MountainDale</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>140</td>
+            <td align='right'> +4</td>
+            <td align='right'>342</td>
+            <td align='right'>2 days 02:26:33</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>67</td>
+            <td><a href='https://www.turfgame.com/zone/SundbyChurch'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=34112&roundid=186'>SundbyChurch</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>145</td>
+            <td align='right'>05:45:49</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>68</td>
+            <td><a href='https://www.turfgame.com/zone/Tvärstoppet'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=354000&roundid=186'>Tvärstoppet</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>80</td>
+            <td align='right'> +8</td>
+            <td align='right'>108</td>
+            <td align='right'>03:31:42</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>69</td>
+            <td><a href='https://www.turfgame.com/zone/Waterfront'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=94233&roundid=186'>Waterfront</a></td>
+            <td>Stockholms kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>65</td>
+            <td align='right'> +9</td>
+            <td align='right'>65</td>
+            <td align='right'></td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+            <td align='right'>1</td>
+        </tr>
+        <tr>
+            <td align='right'>70</td>
+            <td><a href='https://www.turfgame.com/zone/Nöjespark'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=651310&roundid=186'>Nöjespark</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>140</td>
+            <td align='right'> +4</td>
+            <td align='right'>142</td>
+            <td align='right'>00:25:01</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>71</td>
+            <td><a href='https://www.turfgame.com/zone/Picassoparken'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=24057&roundid=186'>Picassoparken</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>140</td>
+            <td align='right'> +4</td>
+            <td align='right'>213</td>
+            <td align='right'>18:20:30</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>72</td>
+            <td><a href='https://www.turfgame.com/zone/RåstaSyd'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=78448&roundid=186'>RåstaSyd</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>95</td>
+            <td align='right'> +7</td>
+            <td align='right'>212</td>
+            <td align='right'>16:43:12</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>73</td>
+            <td><a href='https://www.turfgame.com/zone/SolOchRegn'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=684781&roundid=186'>SolOchRegn</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>140</td>
+            <td align='right'> +4</td>
+            <td align='right'>259</td>
+            <td align='right'>1 days 05:40:16</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>74</td>
+            <td><a href='https://www.turfgame.com/zone/Riksgatan'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=8226&roundid=186'>Riksgatan</a></td>
+            <td>Stockholms kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>65</td>
+            <td align='right'> +9</td>
+            <td align='right'>74</td>
+            <td align='right'>01:01:28</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>75</td>
+            <td><a href='https://www.turfgame.com/zone/Tivoliudden'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=12247&roundid=186'>Tivoliudden</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>155</td>
+            <td align='right'> +3</td>
+            <td align='right'>228</td>
+            <td align='right'>1 days 00:24:32</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>76</td>
+            <td><a href='https://www.turfgame.com/zone/RåstaLake'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=11989&roundid=186'>RåstaLake</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>80</td>
+            <td align='right'> +8</td>
+            <td align='right'>215</td>
+            <td align='right'>16:49:49</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>77</td>
+            <td><a href='https://www.turfgame.com/zone/EyeOfTheTiger'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=194305&roundid=186'>EyeOfTheTiger</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>95</td>
+            <td align='right'> +7</td>
+            <td align='right'>99</td>
+            <td align='right'>00:34:21</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>78</td>
+            <td><a href='https://www.turfgame.com/zone/VasaparkJr'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=92311&roundid=186'>VasaparkJr</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>140</td>
+            <td align='right'> +4</td>
+            <td align='right'>176</td>
+            <td align='right'>09:02:04</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>79</td>
+            <td><a href='https://www.turfgame.com/zone/BigOldZone'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=168&roundid=186'>BigOldZone</a></td>
+            <td>Stockholms kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>65</td>
+            <td align='right'> +9</td>
+            <td align='right'>71</td>
+            <td align='right'>00:40:32</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>80</td>
+            <td><a href='https://www.turfgame.com/zone/KrausZone'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=12240&roundid=186'>KrausZone</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>170</td>
+            <td align='right'> +2</td>
+            <td align='right'>219</td>
+            <td align='right'>1 days 00:18:54</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>81</td>
+            <td><a href='https://www.turfgame.com/zone/Färjetrafik'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=78701&roundid=186'>Färjetrafik</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>95</td>
+            <td align='right'> +7</td>
+            <td align='right'>214</td>
+            <td align='right'>16:57:04</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>82</td>
+            <td><a href='https://www.turfgame.com/zone/Golfängarna'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=654266&roundid=186'>Golfängarna</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>162</td>
+            <td align='right'>08:38:45</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>83</td>
+            <td><a href='https://www.turfgame.com/zone/MoSbrickan'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=224725&roundid=186'>MoSbrickan</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>80</td>
+            <td align='right'> +8</td>
+            <td align='right'>294</td>
+            <td align='right'>1 days 02:44:08</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>84</td>
+            <td><a href='https://www.turfgame.com/zone/HelgeandZone'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=173&roundid=186'>HelgeandZone</a></td>
+            <td>Stockholms kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>80</td>
+            <td align='right'> +8</td>
+            <td align='right'>88</td>
+            <td align='right'>00:58:41</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>85</td>
+            <td><a href='https://www.turfgame.com/zone/Bockholmen'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=25175&roundid=186'>Bockholmen</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>155</td>
+            <td align='right'> +3</td>
+            <td align='right'>212</td>
+            <td align='right'>19:07:10</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>86</td>
+            <td><a href='https://www.turfgame.com/zone/Ursvik'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=595447&roundid=186'>Ursvik</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>110</td>
+            <td align='right'> +6</td>
+            <td align='right'>178</td>
+            <td align='right'>11:16:28</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>87</td>
+            <td><a href='https://www.turfgame.com/zone/SåEttFrö'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=228014&roundid=186'>SåEttFrö</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>95</td>
+            <td align='right'> +7</td>
+            <td align='right'>299</td>
+            <td align='right'>1 days 05:12:45</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>88</td>
+            <td><a href='https://www.turfgame.com/zone/NäraHimlen'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=92298&roundid=186'>NäraHimlen</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>170</td>
+            <td align='right'> +2</td>
+            <td align='right'>178</td>
+            <td align='right'>04:09:12</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>89</td>
+            <td><a href='https://www.turfgame.com/zone/KarlasAllé'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=14605&roundid=186'>KarlasAllé</a></td>
+            <td>Stockholms kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>80</td>
+            <td align='right'> +8</td>
+            <td align='right'>109</td>
+            <td align='right'>03:40:11</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>90</td>
+            <td><a href='https://www.turfgame.com/zone/DdunkDdunk'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=603261&roundid=186'>DdunkDdunk</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>155</td>
+            <td align='right'> +3</td>
+            <td align='right'>211</td>
+            <td align='right'>18:43:24</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>91</td>
+            <td><a href='https://www.turfgame.com/zone/PåTvärsan'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=119702&roundid=186'>PåTvärsan</a></td>
+            <td>Sundbybergs kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>125</td>
+            <td align='right'> +5</td>
+            <td align='right'>136</td>
+            <td align='right'>02:06:30</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>92</td>
+            <td><a href='https://www.turfgame.com/zone/SolnaZone'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=1081&roundid=186'>SolnaZone</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>65</td>
+            <td align='right'> +9</td>
+            <td align='right'>97</td>
+            <td align='right'>03:31:45</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>93</td>
+            <td><a href='https://www.turfgame.com/zone/Rälsbuss'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=23123&roundid=186'>Rälsbuss</a></td>
+            <td>Stockholms kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>65</td>
+            <td align='right'> +9</td>
+            <td align='right'>65</td>
+            <td align='right'></td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+            <td align='right'>1</td>
+        </tr>
+        <tr>
+            <td align='right'>94</td>
+            <td><a href='https://www.turfgame.com/zone/HärHvilar'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=126254&roundid=186'>HärHvilar</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>125</td>
+            <td align='right'> +5</td>
+            <td align='right'>217</td>
+            <td align='right'>18:25:56</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>95</td>
+            <td><a href='https://www.turfgame.com/zone/Råstasjön'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=7168&roundid=186'>Råstasjön</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>80</td>
+            <td align='right'> +8</td>
+            <td align='right'>213</td>
+            <td align='right'>16:40:43</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>96</td>
+            <td><a href='https://www.turfgame.com/zone/SolnaFlower'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=44318&roundid=186'>SolnaFlower</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>95</td>
+            <td align='right'> +7</td>
+            <td align='right'>119</td>
+            <td align='right'>03:22:21</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>97</td>
+            <td><a href='https://www.turfgame.com/zone/DancingQueen'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=94234&roundid=186'>DancingQueen</a></td>
+            <td>Stockholms kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>65</td>
+            <td align='right'> +9</td>
+            <td align='right'>75</td>
+            <td align='right'>01:07:49</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tr>
+            <td align='right'>98</td>
+            <td><a href='https://www.turfgame.com/zone/＃fördesominte'><img height='12' src='images/turf.ico'/></a> <a href='zone2.php?zoneid=318988&roundid=186'>＃fördesominte</a></td>
+            <td>Solna kommun</td>
+            <td>Stockholm</td>
+            <td align='right'>155</td>
+            <td align='right'> +3</td>
+            <td align='right'>228</td>
+            <td align='right'>1 days 00:23:09</td>
+            <td align='right'>1</td>
+            <td align='right'>1</td>
+            <td align='right'>0</td>
+            <td align='right'>0</td>
+        </tr>
+        <tfoot>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th align="right">107</th>
+            <th align="right">+6.15</th>
+            <th align="right">155</th>
+            <th align="right">08:36:44</th>
+            <th align='right'>244</th>
+            <th align='right'>238</th>
+            <th align='right'>2</th>
+            <th align='right'>4</th>
+        </tr>
+        </tfoot>
+    </table>
+    <br>
+    Note!<br>
+    The table summary contains average values for TP, PPH, points and duration while the other is a total summary<br>
+    The summary average "Average duration" and the values in the column do only include takeovers<br>
+</div>
+</body>
+</html>
+
