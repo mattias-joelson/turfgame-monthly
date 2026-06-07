@@ -95,11 +95,14 @@ public class TakeDistributionTest {
         if (printZones) {
             System.out.println("cut: " + cut);
             System.out.println("cutPlus: " + cutPlus);
-            distributionList.stream().filter(zoneTakeDistribution -> zoneTakeDistribution.getPercentage() < cutPlus
-                    || zoneTakeDistribution.getVisits() < current).sorted(
-                    Comparator.comparing(ZoneTakeDistribution::getVisits)
-                            .thenComparing(zoneTakeDistribution -> zoneTakeDistribution.getZone().getName())).map(
-                    ZoneTakeDistribution::toKMLPlacemarkNameString).forEach(System.out::println);
+            distributionList.stream()
+                    .filter(zoneTakeDistribution -> zoneTakeDistribution.getPercentage() < cutPlus
+                            || zoneTakeDistribution.getVisits() < current)
+                    .sorted(Comparator.comparing(ZoneTakeDistribution::getPercentage)
+                            .thenComparing(ZoneTakeDistribution::getVisits)
+                            .thenComparing(zoneTakeDistribution -> zoneTakeDistribution.getZone().getName()))
+                    .map(ZoneTakeDistribution::toKMLPlacemarkNameString)
+                    .forEach(System.out::println);
         }
     }
 
