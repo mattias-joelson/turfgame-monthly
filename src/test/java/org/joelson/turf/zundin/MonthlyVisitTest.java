@@ -239,9 +239,19 @@ public class MonthlyVisitTest {
         }
 
         public void write(KMLWriter out) {
-            out.writePlacemark(String.format("%d - %s%s", takes, zone.getName(),
-                            (visits > 0) ? " (" + visits + " visits)" : " (unvisited)"), "", zone.getLongitude(),
+            out.writePlacemark(visitsInfo(zone.getName(), takes, visits), "", zone.getLongitude(),
                     zone.getLatitude());
+        }
+
+        private static String visitsInfo(String name, int takes, int visits) {
+            if (visits == 0) {
+                return String.format("%d - %s (unvisited, %.2f%%)", takes, name, 0f);
+            }
+            if (takes >= 51) {
+                return String.format("%d - %s (%d visits)", takes, name, visits);
+            }
+            int takesRemaining = 51 - takes;
+            return String.format("%d - %s (%d visits, %.2f%%)", takes, name, visits, ((float) visits) * 100 / (takesRemaining + visits));
         }
     }
 }

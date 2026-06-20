@@ -344,11 +344,17 @@ public class HeatmapTest {
         System.out.println("     +-+----+----+----+----+----+----+----+----+----+----+-");
         System.out.println("       0    5   10   15   20   25   30   35   40   45   50");
 
-        System.out.println("File:            " + filename + " (" + visitedZones + " / " + zones.size() + ")");
-        System.out.println("Takes to orange: " + toOrange + " (" + toOrangeZones + " zones, " + yellowVisits + " yellow visits, " + newZones + " new zones)");
-        System.out.println("Takes to red:    " + toRed + " (" + toRedZones + " zones, " + orangeVisits + " orange visits, " + orangeZones + " new orange)");
-        System.out.println("Takes to purple: " + toPurple + " (" + toPurpleZones + " zones. " + redVisits + " red visits, " + redZones + " new red zones)");
-        System.out.println("Total takes:     " + municipalityTakes + " (" + purpleZones + " new purple zones, " + purpleVisits + " purple visits)");
+        System.out.printf("File:            %s (%d / %d)%n", filename, visitedZones, zones.size());
+        System.out.printf("Takes to orange: %d (%d zones, %d yellow visits, %d new zones, %.2f%%)%n",
+                toOrange, toOrangeZones, yellowVisits, newZones, ((float) yellowVisits) * 100 / (toOrange + yellowVisits));
+        System.out.printf("Takes to red:    %d (%d zones, %d orange visits, %d new orange zones, %.2f%%)%n",
+                toRed, toRedZones, orangeVisits, orangeZones,
+                ((float) orangeVisits + yellowVisits) * 100 / (toRed + orangeVisits + yellowVisits));
+        System.out.printf("Takes to purple: %d (%d zones, %d red visits, %d new red zones. %.2f%%)%n",
+                toPurple, toPurpleZones, redVisits, redZones,
+                ((float) redVisits + orangeVisits + yellowVisits) * 100 / (toPurple + redVisits + orangeVisits + yellowVisits));
+        System.out.printf("Total takes:     %d (%d new purple zones, %d purple visits)%n",
+                municipalityTakes, purpleZones, purpleVisits);
 
         if (!printZones) {
             return;
