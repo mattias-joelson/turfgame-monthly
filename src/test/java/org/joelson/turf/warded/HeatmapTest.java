@@ -129,7 +129,8 @@ public class HeatmapTest {
         return URLReaderTest.readProperties("warded.unique.php.html", TakenZones::fromHTML);
     }
 
-    public static Map<String, Integer> calcRoundVisits(Set<Zone> zones, Map<String, Integer> takesZones) throws IOException {
+    public static Map<String, Integer> calcRoundVisits(Set<Zone> zones, Map<String, Integer> takesZones)
+            throws IOException {
         Map<String, Integer> previousVisits = getPreviousVisits();
         Map<String, Integer> monthlyVisits = new HashMap<>();
         for (Zone zone : zones) {
@@ -146,7 +147,8 @@ public class HeatmapTest {
     @Nonnull
     private static Map<String, Integer> getPreviousVisits() throws IOException {
         Map<String, Integer> previousVisits = new HashMap<>();
-        String filename = String.format("src/test/resources/visits_%s_round_%d.properties", MonthlyTest.NICK, MonthlyTest.ROUND - 1);
+        String filename = String.format("src/test/resources/visits_%s_round_%d.properties", MonthlyTest.NICK,
+                MonthlyTest.ROUND - 1);
         for (String line : Files.readAllLines(Path.of(filename))) {
             int index = line.indexOf('=');
             previousVisits.put(line.substring(0, index), Integer.parseInt(line.substring(index + 1)));
@@ -361,7 +363,7 @@ public class HeatmapTest {
                 }
                 if (takes >= 51) {
                     if (beginTakes < 51) {
-                        purpleZones +=1;
+                        purpleZones += 1;
                     }
                     purpleVisits += takes - Math.max(beginTakes, 50);
                 }
@@ -400,7 +402,7 @@ public class HeatmapTest {
 //        writeHeatmapFolder(zoneMaps.get(HeatmapCategories.RED_45.getTakes()), filenamePrefix + "_red_45-50");
 //        writeHeatmapFolder(zoneMaps.get(WardedCategories.PURPLE.getTakes()), filenamePrefix + "_purple");
 //
-        int[][] zoneCountArray = IntStream.range(0, zoneTakes.length).mapToObj(i -> new int[]{ i, zoneTakes[i] })
+        int[][] zoneCountArray = IntStream.range(0, zoneTakes.length).mapToObj(i -> new int[] { i, zoneTakes[i] })
                 .sorted(Comparator.comparingInt(a -> a[1])).toArray(int[][]::new);
         int max = zoneCountArray[51][1];
         if (max % 5 != 0) {
@@ -437,10 +439,12 @@ public class HeatmapTest {
                 ((float) orangeZones + yellowVisits) * 100 / (toOrange + orangeZones + yellowVisits));
         System.out.printf("Takes to red:    %d (%d zones, %d orange visits, %d new orange zones, %.2f%%)%n",
                 toRed, toRedZones, orangeVisits, orangeZones,
-                ((float) redZones + orangeVisits + yellowVisits) * 100 / (toRed + redZones + orangeVisits + yellowVisits));
+                ((float) redZones + orangeVisits + yellowVisits) * 100 / (toRed + redZones + orangeVisits
+                        + yellowVisits));
         System.out.printf("Takes to purple: %d (%d zones, %d red visits, %d new red zones. %.2f%%)%n",
                 toPurple, toPurpleZones, redVisits, redZones,
-                ((float) purpleZones + redVisits + orangeVisits + yellowVisits) * 100 / (toPurple + purpleZones + redVisits + orangeVisits + yellowVisits));
+                ((float) purpleZones + redVisits + orangeVisits + yellowVisits) * 100 / (toPurple + purpleZones
+                        + redVisits + orangeVisits + yellowVisits));
         System.out.printf("Total takes:     %d (%d new purple zones, %d purple visits)%n",
                 municipalityTakes, purpleZones, purpleVisits);
 
