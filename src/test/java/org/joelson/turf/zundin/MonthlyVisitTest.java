@@ -8,8 +8,11 @@ import org.joelson.turf.warded.TakenZoneTest;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -142,6 +145,19 @@ public class MonthlyVisitTest {
         Map<String, Integer> monthlyVisits = MonthlyTest.getMonthly().getZones().stream().collect(
                 Collectors.toMap(MonthlyZone::getName, MonthlyZone::getVisits));
 
+        combinedCircleVisitHeatmap(circleZones, takesZones, monthlyVisits, "circle_combined_month.kml");
+    }
+
+    @Test
+    public void combinedCircleWardedVisitHeatmapTest() throws IOException {
+        Set<Zone> circleZones = HeatmapTest.getKrausTorgCircleZones();
+        Map<String, Integer> takesZones = HeatmapTest.readTakenZones();
+        Map<String, Integer> monthlyVisits = HeatmapTest.calcRoundVisits(circleZones, takesZones);
+        combinedCircleVisitHeatmap(circleZones, takesZones, monthlyVisits, "circle_combined_visits_month.kml");
+    }
+
+    private void combinedCircleVisitHeatmap(Set<Zone> circleZones, Map<String, Integer> takesZones, Map<String, Integer> monthlyVisits, String filename)
+            throws IOException {
         List<CombinedVisitZone> untakenZones = new ArrayList<>();
         List<CombinedVisitZone> yellowZones = new ArrayList<>();
         List<CombinedVisitZone> orangeZones = new ArrayList<>();
@@ -156,7 +172,7 @@ public class MonthlyVisitTest {
             String zoneName = zone.getName();
             if (takesZones.containsKey(zoneName)) {
                 int takes = takesZones.get(zoneName);
-                int visits = (monthlyVisits.containsKey(zoneName)) ? monthlyVisits.get(zoneName) : 0;
+                int visits = monthlyVisits.getOrDefault(zoneName, 0);
                 if (takes < 11) {
                     yellowZones.add(new CombinedVisitZone(zone, takes, visits));
                 } else if (takes < 21) {
@@ -183,7 +199,7 @@ public class MonthlyVisitTest {
         System.out.println("Zones visited:                " + numberVisitedOnceZones);
         System.out.println("Zones visited more than once: " + numberVisitedZones);
 
-        KMLWriter out = new KMLWriter("circle_combined_month.kml");
+        KMLWriter out = new KMLWriter(filename);
         if (!untakenZones.isEmpty()) {
             out.writeFolder(String.format("Untaken Zones (%d)", untakenZones.size()));
             untakenZones.stream().sorted().forEach(zone -> zone.write(out));

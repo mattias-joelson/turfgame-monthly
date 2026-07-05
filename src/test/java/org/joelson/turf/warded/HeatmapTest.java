@@ -10,7 +10,10 @@ import org.joelson.turf.zundin.MonthlyTest;
 import org.joelson.turf.zundin.MonthlyZone;
 import org.junit.jupiter.api.Test;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -126,6 +129,71 @@ public class HeatmapTest {
         return URLReaderTest.readProperties("warded.unique.php.html", TakenZones::fromHTML);
     }
 
+    public static Map<String, Integer> calcRoundVisits(Set<Zone> zones, Map<String, Integer> takesZones) throws IOException {
+        Map<String, Integer> previousVisits = getPreviousVisits();
+        Map<String, Integer> monthlyVisits = new HashMap<>();
+        for (Zone zone : zones) {
+            String name = zone.getName();
+            int takes = takesZones.getOrDefault(name, 0);
+            int previous = previousVisits.getOrDefault(name, 0);
+            if (takes > previous) {
+                monthlyVisits.put(name, takes - previous);
+            }
+        }
+        return monthlyVisits;
+    }
+
+    @Nonnull
+    private static Map<String, Integer> getPreviousVisits() throws IOException {
+        Map<String, Integer> previousVisits = new HashMap<>();
+        String filename = String.format("src/test/resources/visits_%s_round_%d.properties", MonthlyTest.NICK, MonthlyTest.ROUND - 1);
+        for (String line : Files.readAllLines(Path.of(filename))) {
+            int index = line.indexOf('=');
+            previousVisits.put(line.substring(0, index), Integer.parseInt(line.substring(index + 1)));
+        }
+        return previousVisits;
+    }
+
+    @Test
+    public void calculateRoundVisits() throws IOException {
+        Set<Zone> zones = getKrausTorgCircleZones();
+        Map<String, Integer> previousVisits = getPreviousVisits();
+        Map<String, Integer> currentVisits = readTakenZones();
+        int previousYellowZones = 0, previousOrangeZones = 0, previousRedZones = 0, previousPurpleZones = 0;
+        int yellowZones = 0, orangeZones = 0, redZones = 0, purpleZones = 0;
+        System.out.println("previous");
+        sumVisits(zones, previousVisits);
+        System.out.println("current");
+        sumVisits(zones, currentVisits);
+    }
+
+    private void sumVisits(Set<Zone> zones, Map<String, Integer> visits) {
+        int yellowZones = 0, orangeZones = 0, redZones = 0, purpleZones = 0;
+        int toOrange = 0, toRed = 0, toPurple = 0;
+        for (Zone zone : zones) {
+            String zoneName = zone.getName();
+            int zoneVisits = visits.getOrDefault(zoneName, 0);
+            if (zoneVisits < 11) {
+                yellowZones += 1;
+                toOrange += 11 - zoneVisits;
+            }
+            if (zoneVisits < 21) {
+                orangeZones += 1;
+                toRed += 21 - zoneVisits;
+            }
+            if (zoneVisits < 51) {
+                redZones += 1;
+                toPurple += 51 - zoneVisits;
+            } else {
+                purpleZones += 1;
+            }
+        }
+        System.out.printf("%d yellow zones, %d visits to orange%n", yellowZones, toOrange);
+        System.out.printf("%d orange zones, %d visits to red%n", orangeZones, toRed);
+        System.out.printf("%d red zones, %d visits to purple%n", redZones, toPurple);
+        System.out.printf("%d purple zones%n", purpleZones);
+    }
+
     @Test
     public void danderydHeatmap() throws IOException {
         municipalityHeatmap("danderyd_heatmap.kml", readTakenZones(), ZonesTest.getDanderydAreaZones(),
@@ -156,6 +224,19 @@ public class HeatmapTest {
     @Test
     public void circleHeatmap() throws IOException {
         municipalityHeatmap("circle_heatmap.kml", readTakenZones(), getKrausTorgCircleZones(), true);
+    }
+
+    @Test
+    public void circleVisitsHeatmap() throws IOException {
+        Set<Zone> circleZones = getTorgCircleZones();
+        Map<String, Integer> takenZones = readTakenZones();
+        Map<String, Integer> roundVisits = calcRoundVisits(circleZones, takenZones);
+        municipalityHeatmap("circle_visits_heatmap.kml", takenZones, circleZones, true, roundVisits);
+    }
+
+    @Nonnull
+    private static Set<Zone> getTorgCircleZones() throws IOException {
+        return getKrausTorgCircleZones();
     }
 
     @Test
@@ -214,6 +295,12 @@ public class HeatmapTest {
         Map<String, Integer> monthlyVisits = MonthlyTest.getMonthly().getZones().stream().collect(
                 Collectors.toMap(MonthlyZone::getName, MonthlyZone::getVisits));
 
+        municipalityHeatmap(filename, takenZones, zones, printZones, monthlyVisits);
+    }
+
+    private void municipalityHeatmap(
+            String filename, Map<String, Integer> takenZones, Set<Zone> zones, boolean printZones,
+            Map<String, Integer> monthlyVisits) throws IOException {
         List<Map<Zone, Integer>> zoneMaps = new ArrayList<>(TAKES_ENTRIES);
         Map<String, Integer> zoneMap = new HashMap<>();
         initZoneMaps(zoneMaps, HeatmapCategories.UNTAKEN);

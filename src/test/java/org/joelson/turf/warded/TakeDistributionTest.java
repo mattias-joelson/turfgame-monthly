@@ -15,29 +15,36 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TakeDistributionTest {
 
     private static final int PURPLE_LIMIT = 51;
 
     private static void createDistributionMap(String filename, Set<Zone> zones, boolean printZones) throws IOException {
-        Map<String, MonthlyZone> monthlyNameMap = toNameMap(MonthlyTest.getMonthly().getZones());
         Map<String, Integer> visitNameMap = TakenZoneTest.readTakenZones();
+        Map<String, Integer> monthlyVisits = MonthlyTest.getMonthly().getZones().stream().collect(
+                Collectors.toMap(MonthlyZone::getName, MonthlyZone::getVisits));
+        createDistributionMap(filename, zones, printZones, visitNameMap, monthlyVisits);
+    }
+
+    private static void createDistributionMap(
+            String filename, Set<Zone> zones, boolean printZones, Map<String, Integer> visitNameMap,
+            Map<String, Integer> monthlyVisits) throws IOException {
         List<ZoneTakeDistribution> distributionList = new ArrayList<>(zones.size());
 
         for (Zone zone : zones) {
             String zoneName = zone.getName();
-            MonthlyZone monthlyZone = monthlyNameMap.get(zoneName);
-            int visits = (visitNameMap.containsKey(zoneName)) ? visitNameMap.get(zoneName) : 0;
+            int visits = visitNameMap.getOrDefault(zoneName, 0);
             if (visits >= PURPLE_LIMIT) {
                 continue;
             }
-            int monthlyVisits = (monthlyZone != null) ? monthlyZone.getVisits() : 0;
-            int startVisits = visits - monthlyVisits;
+            int roundVisits = monthlyVisits.getOrDefault(zoneName, 0);
+            int startVisits = visits - roundVisits;
             int visitsRemained = PURPLE_LIMIT - startVisits;
             if (visitsRemained > 0) {
-                float percentage = Math.min(100.0f * monthlyVisits / visitsRemained, 100.0f);
-                distributionList.add(new ZoneTakeDistribution(zone, monthlyVisits, visits, percentage));
+                float percentage = Math.min(100.0f * roundVisits / visitsRemained, 100.0f);
+                distributionList.add(new ZoneTakeDistribution(zone, roundVisits, visits, percentage));
             }
         }
 
@@ -146,6 +153,14 @@ public class TakeDistributionTest {
     @Test
     public void circleTakeDistributionTest() throws IOException {
         createDistributionMap("circle_distribution.kml", HeatmapTest.getKrausTorgCircleZones(), true);
+    }
+
+    @Test
+    public void circleVisitTakeDistributionTest() throws IOException {
+        Set<Zone> zones = HeatmapTest.getKrausTorgCircleZones();
+        Map<String, Integer> visitNameMap = TakenZoneTest.readTakenZones();
+        Map<String, Integer> monthlyVisits = HeatmapTest.calcRoundVisits(zones, visitNameMap);
+        createDistributionMap("circle_visit_distribution.kml", zones, true, visitNameMap, monthlyVisits);
     }
 
     private static class ZoneTakeDistribution {
