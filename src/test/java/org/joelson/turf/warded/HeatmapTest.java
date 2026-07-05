@@ -433,13 +433,14 @@ public class HeatmapTest {
 
         System.out.printf("File:            %s (%d / %d)%n", filename, visitedZones, zones.size());
         System.out.printf("Takes to orange: %d (%d zones, %d yellow visits, %d new zones, %.2f%%)%n",
-                toOrange, toOrangeZones, yellowVisits, newZones, ((float) yellowVisits) * 100 / (toOrange + yellowVisits));
+                toOrange, toOrangeZones, yellowVisits, newZones,
+                ((float) orangeZones + yellowVisits) * 100 / (toOrange + orangeZones + yellowVisits));
         System.out.printf("Takes to red:    %d (%d zones, %d orange visits, %d new orange zones, %.2f%%)%n",
                 toRed, toRedZones, orangeVisits, orangeZones,
-                ((float) orangeVisits + yellowVisits) * 100 / (toRed + orangeVisits + yellowVisits));
+                ((float) redZones + orangeVisits + yellowVisits) * 100 / (toRed + redZones + orangeVisits + yellowVisits));
         System.out.printf("Takes to purple: %d (%d zones, %d red visits, %d new red zones. %.2f%%)%n",
                 toPurple, toPurpleZones, redVisits, redZones,
-                ((float) redVisits + orangeVisits + yellowVisits) * 100 / (toPurple + redVisits + orangeVisits + yellowVisits));
+                ((float) purpleZones + redVisits + orangeVisits + yellowVisits) * 100 / (toPurple + purpleZones + redVisits + orangeVisits + yellowVisits));
         System.out.printf("Total takes:     %d (%d new purple zones, %d purple visits)%n",
                 municipalityTakes, purpleZones, purpleVisits);
 
