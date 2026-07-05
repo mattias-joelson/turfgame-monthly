@@ -260,14 +260,20 @@ public class MonthlyVisitTest {
         }
 
         private static String visitsInfo(String name, int takes, int visits) {
-            if (visits == 0) {
-                return String.format("%d - %s (unvisited, %.2f%%)", takes, name, 0f);
-            }
             if (takes >= 51) {
-                return String.format("%d - %s (%d visits)", takes, name, visits);
+                if (visits == 0) {
+                    return String.format("%d - %s (unvisited)", takes, name);
+                } else {
+                    return String.format("%d - %s (%d visits)", takes, name, visits);
+                }
+            } else {
+                if (visits == 0) {
+                    return String.format("%d - %s (unvisited, %.2f%%)", takes, name, 0f);
+                }
+                int takesRemaining = 51 - takes;
+                return String.format("%d - %s (%d visits, %.2f%%)", takes, name, visits,
+                        ((float) visits) * 100 / (takesRemaining + visits));
             }
-            int takesRemaining = 51 - takes;
-            return String.format("%d - %s (%d visits, %.2f%%)", takes, name, visits, ((float) visits) * 100 / (takesRemaining + visits));
         }
     }
 }
