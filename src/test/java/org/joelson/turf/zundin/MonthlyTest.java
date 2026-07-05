@@ -6,8 +6,8 @@ import java.io.IOException;
 
 public class MonthlyTest {
 
-    private static final String NICK = "0beroff";
-    private static final int ROUND = 191;
+    public static final String NICK = "0beroff";
+    public static final int ROUND = 192;
     private static final String FILENAME = String.format("monthly_%s_round%d.html", NICK, ROUND);
 
     public static Monthly getMonthly() throws IOException {
