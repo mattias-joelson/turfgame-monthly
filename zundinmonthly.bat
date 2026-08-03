@@ -1,7 +1,7 @@
 @echo off
 
 set user=0beroff
-set round=192
+set round=193
 set filename=monthly_%user%_round%round%.html
 
 call mvn exec:java -Dexec.mainClass="org.joelson.turf.zundin.Monthly" -Dexec.args="user=%user% round=%round%"
